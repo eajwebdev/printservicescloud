@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function () {
         Route::post('invoices/record-payment', [Platform\InvoiceController::class, 'recordPayment'])->name('invoices.pay');
         Route::post('invoices/{invoice}/void', [Platform\InvoiceController::class, 'void'])->name('invoices.void');
         Route::post('billing/run', [Platform\InvoiceController::class, 'run'])->name('billing.run');
+        Route::post('master-key', [Platform\SettingsController::class, 'masterKey'])->name('master-key');
         Route::get('settings', [Platform\SettingsController::class, 'index'])->name('settings.index');
         Route::put('settings', [Platform\SettingsController::class, 'update'])->name('settings.update');
     });

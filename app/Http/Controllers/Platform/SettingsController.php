@@ -43,6 +43,17 @@ class SettingsController extends Controller
         ]);
     }
 
+    /** The master key: open every branch without a subscription, or put subscriptions back in force. */
+    public function masterKey(Request $request, BillingService $billing): RedirectResponse
+    {
+        $enabled = $request->validate(['enabled' => ['required', 'boolean']])['enabled'];
+        $billing->setFreeAccess((bool) $enabled, $request->user());
+
+        return back()->with('success', $enabled
+            ? 'Master key is on. Every branch can use the system without a subscription, and billing is paused.'
+            : 'Master key is off. Subscriptions, bills and locks apply again.');
+    }
+
     public function update(Request $request): RedirectResponse
     {
         $data = $request->validate([

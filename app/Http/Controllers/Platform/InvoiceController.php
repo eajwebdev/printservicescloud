@@ -97,6 +97,9 @@ class InvoiceController extends Controller
     public function run(Request $request): RedirectResponse
     {
         $result = $this->billing->run();
+        if ($result['paused'] ?? false) {
+            return back()->with('error', 'Billing is paused while the master key is on. Turn it off to issue bills.');
+        }
 
         return back()->with('success', "Billing run done: {$result['invoices']} bill(s) issued, {$result['trials_ended']} trial(s) ended.");
     }

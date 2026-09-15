@@ -9,7 +9,7 @@ import { Select } from '@/components/ui/field';
 import { date, money, qty } from '@/lib/format';
 import { useCan, useAppPage } from '@/lib/utils';
 import type { LineSpec } from '@/types';
-import { QUOTE_LABEL, QUOTE_TONE } from './Index';
+import { QUOTE_LABEL, QUOTE_TONE } from '@/lib/status';
 
 interface Props {
     quotation: {

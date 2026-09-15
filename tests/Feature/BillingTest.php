@@ -191,6 +191,38 @@ class BillingTest extends TestCase
         $this->assertSame(1, BillingPayment::query()->count());
     }
 
+    public function test_master_key_opens_every_branch_and_pauses_billing(): void
+    {
+        $this->billing()->activate($this->kab, Carbon::parse('2026-06-01'), $this->superadmin);
+        $this->actingAs($this->cashier)->get(route('dashboard'))->assertInertia(fn ($page) => $page->component('Billing/Locked'));
+
+        // Only the superadmin holds the key.
+        $this->actingAs($this->admin)->post(route('platform.master-key'), ['enabled' => true])->assertForbidden();
+        $this->actingAs($this->superadmin)->post(route('platform.master-key'), ['enabled' => true])->assertSessionHasNoErrors();
+        $this->actingAs($this->superadmin)->get(route('platform.branches.index'))->assertInertia(fn ($page) => $page->where('freeAccess', true));
+
+        // Locked branch opens, with no bill reminder; billing and trial endings are paused.
+        $this->actingAs($this->cashier)->get(route('dashboard'))->assertInertia(fn ($page) => $page
+            ->component('Dashboard')
+            ->where('billing.locked', false)
+            ->where('billing.warning', false));
+        $bcd = Branch::query()->where('code', 'BCD')->firstOrFail();
+        $this->billing()->startTrial($bcd, Carbon::parse('2026-09-20'), $this->superadmin);
+        $before = Invoice::query()->count();
+        Carbon::setTestNow('2026-10-15 00:30:00');
+        $this->assertTrue($this->billing()->run()['paused']);
+        $this->assertSame($before, Invoice::query()->count());
+        $this->assertSame('trial', $bcd->fresh()->subscription_status);
+
+        // Cancelled branches stay closed even with the key on.
+        $bcd->update(['subscription_status' => 'cancelled']);
+        $this->assertTrue(app(BillingService::class)->state($bcd->fresh())['locked']);
+
+        // Switched off, subscriptions apply again.
+        $this->actingAs($this->superadmin)->post(route('platform.master-key'), ['enabled' => false])->assertSessionHasNoErrors();
+        $this->actingAs($this->cashier)->get(route('dashboard'))->assertInertia(fn ($page) => $page->component('Billing/Locked'));
+    }
+
     public function test_only_the_superadmin_manages_subscriptions(): void
     {
         $this->actingAs($this->admin)->get(route('platform.branches.index'))->assertForbidden();

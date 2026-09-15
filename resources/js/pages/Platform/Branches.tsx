@@ -1,5 +1,5 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import { Ban, CalendarClock, MoreHorizontal, PauseCircle, Pencil, PlayCircle, Plus, Receipt, RefreshCw } from 'lucide-react';
+import { Ban, CalendarClock, KeyRound, MoreHorizontal, PauseCircle, Pencil, PlayCircle, Plus, Receipt, RefreshCw } from 'lucide-react';
 import { useState } from 'react';
 import { ListPage, SummaryStrip, ToolbarSearch } from '@/components/list-page';
 import { Button, IconButton } from '@/components/ui/button';
@@ -14,7 +14,7 @@ import { useFilters } from '@/hooks/use-filters';
 import { date, peso, todayISO } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import type { BillingState } from '@/types';
-import { SUBSCRIPTION_TONE } from '../Billing/Index';
+import { SUBSCRIPTION_TONE } from '@/lib/status';
 
 type Row = BillingState & {
     id: number;
@@ -43,6 +43,7 @@ interface Props {
     summary: { branches: number; trial: number; active: number; suspended: number; locked: number; mrr: number; outstanding: number; overdue: number; collected_month: number };
     defaults: { monthly_fee: number; trial_days: number; lock_after: number; due_days: number };
     copyFrom: { id: number; name: string }[];
+    freeAccess: boolean;
 }
 
 const addDays = (n: number) => {
@@ -51,13 +52,14 @@ const addDays = (n: number) => {
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 };
 
-export default function PlatformBranches({ branches, filters: initial, summary, defaults, copyFrom }: Props) {
+export default function PlatformBranches({ branches, filters: initial, summary, defaults, copyFrom, freeAccess }: Props) {
     const { filters, set } = useFilters(route('platform.branches.index'), { q: initial.q ?? '', status: initial.status ?? '' });
     const [editing, setEditing] = useState<Row | 'new' | null>(null);
     const [trial, setTrial] = useState<Row | null>(null);
     const [activate, setActivate] = useState<Row | null>(null);
     const [suspend, setSuspend] = useState<Row | null>(null);
     const [cancel, setCancel] = useState<Row | null>(null);
+    const [keyDialog, setKeyDialog] = useState(false);
 
     return (
         <>
@@ -67,7 +69,15 @@ export default function PlatformBranches({ branches, filters: initial, summary, 
                 description={`Every branch pays ${peso(defaults.monthly_fee)} a month unless you set its own price. Bills are due ${defaults.due_days} days after they are issued; ${defaults.lock_after} overdue bills lock the branch.`}
                 actions={
                     <>
-                        <Button icon={<RefreshCw />} onClick={() => router.post(route('platform.billing.run'), {}, { preserveScroll: true })}>
+                        <Button
+                            variant={freeAccess ? 'primary' : 'secondary'}
+                            icon={<KeyRound />}
+                            onClick={() => setKeyDialog(true)}
+                            title={freeAccess ? 'Every branch has free access. Click to turn off.' : 'Give every branch access without a subscription'}
+                        >
+                            Master key: {freeAccess ? 'On' : 'Off'}
+                        </Button>
+                        <Button icon={<RefreshCw />} disabled={freeAccess} onClick={() => router.post(route('platform.billing.run'), {}, { preserveScroll: true })}>
                             Run billing now
                         </Button>
                         <Button variant="primary" icon={<Plus />} onClick={() => setEditing('new')}>
@@ -90,6 +100,16 @@ export default function PlatformBranches({ branches, filters: initial, summary, 
                     </>
                 }
                 summary={
+                    <>
+                    {freeAccess && (
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-[color-mix(in_srgb,var(--accent)_40%,transparent)] bg-selected px-4 py-2 text-sm lg:px-6">
+                            <KeyRound className="size-4 text-accent-text" />
+                            <span className="text-fg">Master key is on: every branch can use the system without a subscription. No bills are issued and no branch is locked.</span>
+                            <button type="button" className="ml-auto font-medium text-fg underline underline-offset-2" onClick={() => setKeyDialog(true)}>
+                                Turn off
+                            </button>
+                        </div>
+                    )}
                     <SummaryStrip
                         items={[
                             { label: 'Monthly recurring', value: peso(summary.mrr), sub: `${summary.active} subscribed, ${summary.trial} on trial` },
@@ -99,6 +119,7 @@ export default function PlatformBranches({ branches, filters: initial, summary, 
                             { label: 'Locked branches', value: String(summary.locked), sub: `${summary.suspended} suspended`, tone: summary.locked > 0 ? 'red' : undefined },
                         ]}
                     />
+                    </>
                 }
             >
                 {branches.length ? (
@@ -227,6 +248,19 @@ export default function PlatformBranches({ branches, filters: initial, summary, 
                 confirmLabel="Suspend branch"
                 requireReason="Reason (shows on the branch list)"
                 onConfirm={(reason) => suspend && router.post(route('platform.branches.suspend', suspend.id), { reason }, { preserveScroll: true, onFinish: () => setSuspend(null) })}
+            />
+            <ConfirmDialog
+                open={keyDialog}
+                onOpenChange={setKeyDialog}
+                title={freeAccess ? 'Turn the master key off?' : 'Turn the master key on?'}
+                body={
+                    freeAccess
+                        ? 'Subscriptions apply again: bills are issued on each branch’s billing day, trials end on their date, and branches with overdue bills lock.'
+                        : 'Every branch (except cancelled ones) can use the whole system without a subscription. Billing is paused: no bills are issued, trials don’t end, and no branch is locked or reminded. Only you can see or change this.'
+                }
+                confirmLabel={freeAccess ? 'Turn off' : 'Turn on master key'}
+                danger={freeAccess}
+                onConfirm={() => router.post(route('platform.master-key'), { enabled: !freeAccess }, { preserveScroll: true, onFinish: () => setKeyDialog(false) })}
             />
             <ConfirmDialog
                 open={!!cancel}

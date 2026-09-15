@@ -87,6 +87,7 @@ class BranchController extends Controller
                 'overdue' => round((float) Invoice::query()->overdue()->sum('amount'), 2),
                 'collected_month' => round((float) Invoice::query()->where('status', 'paid')->where('paid_at', '>=', now()->startOfMonth())->sum('amount'), 2),
             ],
+            'freeAccess' => $this->billing->freeAccess(),
             'defaults' => [
                 'monthly_fee' => (float) $this->billing->setting('billing.monthly_fee'),
                 'trial_days' => (int) $this->billing->setting('billing.trial_days'),

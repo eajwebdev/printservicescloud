@@ -2,17 +2,16 @@ import { Head, router } from '@inertiajs/react';
 import { ArrowRightLeft, FileDown, FilePlus2 } from 'lucide-react';
 import { ListPage, SummaryStrip, ToolbarSearch } from '@/components/list-page';
 import { Button, ButtonLink, IconButton } from '@/components/ui/button';
-import { Chip, type Tone } from '@/components/ui/chip';
+import { Chip } from '@/components/ui/chip';
 import { ChipGroup } from '@/components/ui/filter-chip';
 import { EmptyState, Pagination } from '@/components/ui/misc';
 import { Table, Td, Th, THead, Tr } from '@/components/ui/table';
 import { useFilters } from '@/hooks/use-filters';
 import { date, isPast, peso, relative } from '@/lib/format';
+import { QUOTE_LABEL, QUOTE_TONE } from '@/lib/status';
 import { cn, useAppPage, useCan } from '@/lib/utils';
 import type { Paginated } from '@/types';
 
-export const QUOTE_TONE: Record<string, Tone> = { draft: 'outline', sent: 'info', accepted: 'ok', converted: 'neutral', expired: 'warn' };
-export const QUOTE_LABEL: Record<string, string> = { draft: 'Draft', sent: 'Sent', accepted: 'Accepted', converted: 'Became an order', expired: 'Expired' };
 
 interface Row {
     id: number;

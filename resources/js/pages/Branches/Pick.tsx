@@ -5,7 +5,7 @@ import { PageHeader } from '@/components/page-header';
 import { Chip } from '@/components/ui/chip';
 import { peso } from '@/lib/format';
 import { cn } from '@/lib/utils';
-import { SUBSCRIPTION_TONE } from '../Billing/Index';
+import { SUBSCRIPTION_TONE } from '@/lib/status';
 
 interface BranchCard {
     id: number;

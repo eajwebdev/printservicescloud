@@ -32,6 +32,11 @@ Artisan::command('shop:restore {file : Backup file name or path} {--force : Skip
 
 Artisan::command('billing:run', function (BillingService $billing) {
     $result = $billing->run();
+    if ($result['paused'] ?? false) {
+        $this->warn('Billing is paused: the master key is on.');
+
+        return;
+    }
     $this->info("Issued {$result['invoices']} bill(s); ended {$result['trials_ended']} free trial(s).");
 })->purpose('Issue monthly branch bills and end finished free trials');
 

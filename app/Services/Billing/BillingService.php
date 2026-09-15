@@ -37,6 +37,23 @@ class BillingService
         return Setting::global($key, self::DEFAULTS[$key] ?? null);
     }
 
+    /**
+     * The superadmin's master key: every branch can use the system without a subscription,
+     * and billing is paused, until it is switched off again.
+     */
+    public function freeAccess(): bool
+    {
+        return (bool) Setting::global('billing.free_access', false);
+    }
+
+    public function setFreeAccess(bool $enabled, ?User $by): void
+    {
+        Setting::putGlobal(['billing.free_access' => $enabled]);
+        $this->states = [];
+        activity('billing')->causedBy($by)->withProperties(['free_access' => $enabled])
+            ->log($enabled ? 'Turned the master key on: every branch has free access' : 'Turned the master key off: subscriptions apply again');
+    }
+
     public function monthlyFee(Branch $branch): float
     {
         return round((float) ($branch->monthly_fee ?? $this->setting('billing.monthly_fee')), 2);
@@ -49,6 +66,11 @@ class BillingService
      */
     public function run(?Carbon $today = null): array
     {
+        // While the master key is on, nobody is billed and no trial ends.
+        if ($this->freeAccess()) {
+            return ['trials_ended' => 0, 'invoices' => 0, 'paused' => true];
+        }
+
         $today = ($today ?? Carbon::today())->copy()->startOfDay();
         $ended = 0;
         $issued = 0;
@@ -280,9 +302,12 @@ class BillingService
         $overdue = $unpaid->filter(fn (Invoice $i) => $i->isOverdue());
         $lockAfter = max(1, (int) $this->setting('billing.lock_after'));
         $graced = $branch->grace_until && $branch->grace_until->gte(today());
+        $freeAccess = $this->freeAccess();
 
         $reason = match (true) {
             $branch->subscription_status === 'cancelled' => 'cancelled',
+            // The superadmin's master key opens every branch that isn't cancelled.
+            $freeAccess => null,
             $branch->subscription_status === 'suspended' => 'suspended',
             $overdue->count() >= $lockAfter && ! $graced => 'overdue',
             default => null,
@@ -298,7 +323,8 @@ class BillingService
             'status_label' => Branch::STATUSES[$branch->subscription_status] ?? $branch->subscription_status,
             'locked' => $reason !== null,
             'lock_reason' => $reason,
-            'warning' => $reason === null && ($overdue->isNotEmpty() || ($nextDue && $nextDue->lte(today()->addDays((int) $this->setting('billing.remind_days'))))),
+            'free_access' => $freeAccess,
+            'warning' => $reason === null && ! $freeAccess && ($overdue->isNotEmpty() || ($nextDue && $nextDue->lte(today()->addDays((int) $this->setting('billing.remind_days'))))),
             'overdue_count' => $overdue->count(),
             'unpaid_count' => $unpaid->count(),
             'due_total' => round((float) $unpaid->sum('amount'), 2),

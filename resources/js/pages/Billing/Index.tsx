@@ -4,12 +4,13 @@ import { useState } from 'react';
 import { InvoiceStatusChip, payBills } from '@/components/billing-notice';
 import { ListPage } from '@/components/list-page';
 import { Button } from '@/components/ui/button';
-import { Chip, type Tone } from '@/components/ui/chip';
+import { Chip } from '@/components/ui/chip';
 import { Select } from '@/components/ui/field';
 import { EmptyState, Pagination } from '@/components/ui/misc';
 import { Table, Td, Th, THead, Tr } from '@/components/ui/table';
 import { useFilters } from '@/hooks/use-filters';
 import { date, dateTime, peso } from '@/lib/format';
+import { SUBSCRIPTION_TONE } from '@/lib/status';
 import { cn } from '@/lib/utils';
 import type { BillingState, InvoiceRow, Paginated } from '@/types';
 
@@ -25,7 +26,6 @@ interface Props {
     canPay: boolean;
 }
 
-export const SUBSCRIPTION_TONE: Record<string, Tone> = { trial: 'info', active: 'ok', suspended: 'red', cancelled: 'neutral' };
 
 export default function BillingIndex({ accounts, invoices, payments, filters: initial, onlineReady, methods, canPay }: Props) {
     const { filters, set } = useFilters(route('billing.index'), { status: initial.status ?? '', branch: initial.branch ?? '' });

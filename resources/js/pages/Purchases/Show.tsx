@@ -10,7 +10,7 @@ import { Panel } from '@/components/ui/misc';
 import { Table, Td, Th, THead, Tr } from '@/components/ui/table';
 import { date, dateTime, money, peso, qty } from '@/lib/format';
 import { useCan } from '@/lib/utils';
-import { PO_LABEL, PO_TONE } from './Index';
+import { PO_LABEL, PO_TONE } from '@/lib/status';
 
 interface Props {
     purchase: {
