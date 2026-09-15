@@ -1,0 +1,302 @@
+@import 'tailwindcss';
+
+@source '../views';
+@source '../js';
+
+/* Theme switch is an attribute on <html>, not a media query. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ------------------------------------------------------------------
+   Brand tokens (fixed, from the logo)
+   ------------------------------------------------------------------ */
+:root {
+    --red-500: #e4141b;
+    --red-600: #c21016;
+    --red-400: #f5333a;
+    --red-tint: rgba(228, 20, 27, 0.12);
+
+    --ink-950: #0c0e12;
+    --ink-900: #12151b;
+    --ink-800: #1a1e27;
+    --ink-700: #262b36;
+    --ink-600: #3a4150;
+
+    --paper: #ffffff;
+    --paper-2: #f6f6f4;
+
+    --ok: #22c079;
+    --warn: #e8a73b;
+    --info: #4a90d9;
+
+    --radius-control: 2px;
+    --radius-panel: 4px;
+}
+
+/* ------------------------------------------------------------------
+   Semantic roles. Dark is the signature and the default.
+   ------------------------------------------------------------------ */
+:root,
+[data-theme='dark'] {
+    color-scheme: dark;
+    --bg: var(--ink-950);
+    --surface: var(--ink-900);
+    --raised: var(--ink-800);
+    --sunken: #090b0e;
+    --line: var(--ink-700);
+    --line-strong: var(--ink-600);
+    --fg: #eceef2;
+    --fg-muted: #9aa2b1;
+    /* The brief's #5B6472 is 3.2:1 on ink-950; lifted to clear WCAG AA for small labels. */
+    --fg-faint: #7c8594;
+    --fg-ghost: #5b6472;
+    --accent: var(--red-500);
+    --accent-text: var(--red-400);
+    --accent-hover: var(--red-400);
+    --accent-press: var(--red-600);
+    --selected: var(--red-tint);
+    --ok-text: #3fd08f;
+    --warn-text: #efb85a;
+    --info-text: #74aae6;
+    --shadow-float: 0 18px 48px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--ink-700);
+    --halftone: rgba(236, 238, 242, 0.06);
+    --chart-1: #4a90d9;
+    --chart-2: #f5333a;
+    --chart-neutral: #c3c8d2;
+    --chart-grid: #1f242d;
+}
+
+[data-theme='light'] {
+    color-scheme: light;
+    --bg: var(--paper-2);
+    --surface: #ffffff;
+    --raised: #ffffff;
+    --sunken: #ecece8;
+    --line: #dcddd8;
+    --line-strong: #c5c7c1;
+    --fg: var(--ink-900);
+    --fg-muted: #4f5663;
+    --fg-faint: #626975;
+    --fg-ghost: #9aa2b1;
+    --accent: var(--red-500);
+    --accent-text: var(--red-600);
+    --accent-hover: var(--red-600);
+    --accent-press: #a30d12;
+    --selected: rgba(228, 20, 27, 0.08);
+    --ok-text: #137a4b;
+    --warn-text: #92600d;
+    --info-text: #2464ad;
+    --shadow-float: 0 18px 40px -14px rgba(12, 14, 18, 0.28), 0 0 0 1px #dcddd8;
+    --halftone: rgba(12, 14, 18, 0.07);
+    --chart-1: #2f72c0;
+    --chart-2: #c21016;
+    --chart-neutral: #3a4150;
+    --chart-grid: #ecece8;
+}
+
+@theme inline {
+    --color-bg: var(--bg);
+    --color-surface: var(--surface);
+    --color-raised: var(--raised);
+    --color-sunken: var(--sunken);
+    --color-line: var(--line);
+    --color-line-strong: var(--line-strong);
+    --color-fg: var(--fg);
+    --color-muted: var(--fg-muted);
+    --color-faint: var(--fg-faint);
+    --color-ghost: var(--fg-ghost);
+    --color-accent: var(--accent);
+    --color-accent-text: var(--accent-text);
+    --color-accent-hover: var(--accent-hover);
+    --color-accent-press: var(--accent-press);
+    --color-selected: var(--selected);
+    --color-ok: var(--ok);
+    --color-ok-text: var(--ok-text);
+    --color-warn: var(--warn);
+    --color-warn-text: var(--warn-text);
+    --color-info: var(--info);
+    --color-info-text: var(--info-text);
+    --color-paper: var(--paper);
+    --color-paper-2: var(--paper-2);
+    --color-ink-950: var(--ink-950);
+    --color-ink-900: var(--ink-900);
+    --color-ink-800: var(--ink-800);
+    --color-ink-700: var(--ink-700);
+    --color-ink-600: var(--ink-600);
+    --color-red-400: var(--red-400);
+    --color-red-500: var(--red-500);
+    --color-red-600: var(--red-600);
+}
+
+@theme {
+    --font-display: 'Space Grotesk Variable', 'Arial Narrow', system-ui, sans-serif;
+    --font-sans: 'Geist Variable', 'Segoe UI', system-ui, sans-serif;
+    --font-mono: 'Geist Mono Variable', ui-monospace, 'Cascadia Mono', monospace;
+
+    /* 1.25 scale from a 14px UI base */
+    --text-2xs: 0.6875rem;
+    --text-2xs--line-height: 1rem;
+    --text-xs: 0.75rem;
+    --text-xs--line-height: 1.1rem;
+    --text-sm: 0.8125rem;
+    --text-sm--line-height: 1.25rem;
+    --text-base: 0.875rem;
+    --text-base--line-height: 1.35rem;
+    --text-lg: 1rem;
+    --text-lg--line-height: 1.5rem;
+    --text-xl: 1.25rem;
+    --text-xl--line-height: 1.75rem;
+    --text-2xl: 1.5625rem;
+    --text-2xl--line-height: 2rem;
+    --text-3xl: 1.9375rem;
+    --text-3xl--line-height: 2.25rem;
+    --text-4xl: 2.4375rem;
+    --text-4xl--line-height: 2.75rem;
+
+    --radius-xs: 2px;
+    --radius-sm: 3px;
+    --radius-md: 4px;
+    --radius-lg: 4px;
+    --radius-xl: 6px;
+
+    --animate-live: live 1.8s ease-out infinite;
+    --animate-shimmer: shimmer 1.4s linear infinite;
+
+    @keyframes live {
+        0% { box-shadow: 0 0 0 0 rgba(228, 20, 27, 0.55); }
+        70% { box-shadow: 0 0 0 7px rgba(228, 20, 27, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(228, 20, 27, 0); }
+    }
+    @keyframes shimmer {
+        from { background-position: -240px 0; }
+        to { background-position: 240px 0; }
+    }
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+@layer base {
+    html {
+        background: var(--bg);
+        -webkit-text-size-adjust: 100%;
+    }
+    body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--font-sans);
+        font-size: var(--text-base);
+        line-height: var(--text-base--line-height);
+        -webkit-font-smoothing: antialiased;
+        font-feature-settings: 'ss01', 'cv11';
+    }
+    h1, h2, h3, h4 {
+        font-family: var(--font-display);
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        text-wrap: balance;
+    }
+    p { text-wrap: pretty; }
+    ::selection { background: var(--red-tint); color: var(--fg); }
+
+    :focus { outline: none; }
+    :focus-visible {
+        outline: 2px solid var(--red-400);
+        outline-offset: 2px;
+        border-radius: var(--radius-control);
+    }
+
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type='number'] { -moz-appearance: textfield; }
+
+    button:not(:disabled), [role='button']:not(:disabled) { cursor: pointer; }
+
+    * { scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
+}
+
+/* ------------------------------------------------------------------
+   Utilities that carry the brand
+   ------------------------------------------------------------------ */
+@utility num {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: 'tnum', 'lnum';
+}
+
+@utility hud {
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+    letter-spacing: -0.02em;
+}
+
+/* Halftone dot field: empty states and login only. */
+@utility halftone {
+    background-image: radial-gradient(var(--halftone) 1px, transparent 1.3px);
+    background-size: 9px 9px;
+}
+
+@utility skeleton {
+    background: linear-gradient(90deg, var(--raised) 0%, var(--line) 50%, var(--raised) 100%);
+    background-size: 480px 100%;
+    animation: var(--animate-shimmer);
+    border-radius: var(--radius-control);
+}
+
+/* Registration crop marks on the four corners of a box. */
+.crop-marks { position: relative; }
+.crop-marks::before,
+.crop-marks::after,
+.crop-marks > .crop-b::before,
+.crop-marks > .crop-b::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: var(--fg-ghost);
+    border-style: solid;
+    pointer-events: none;
+}
+.crop-marks::before { top: -8px; left: -8px; border-width: 1px 0 0 1px; }
+.crop-marks::after { top: -8px; right: -8px; border-width: 1px 1px 0 0; }
+.crop-marks > .crop-b::before { bottom: -8px; left: -8px; border-width: 0 0 1px 1px; }
+.crop-marks > .crop-b::after { bottom: -8px; right: -8px; border-width: 0 1px 1px 0; }
+
+/* The printed sheet: white paper floating on charcoal, with the logo's peel corner. */
+.paper-sheet {
+    background: var(--paper);
+    color: var(--ink-900);
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.65), 0 2px 0 rgba(0, 0, 0, 0.06);
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 34px), calc(100% - 34px) 100%, 0 100%);
+}
+.paper-peel {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(315deg, transparent 50%, #d9dbdf 50%, #f4f5f6 62%, #b9bdc4 100%);
+    filter: drop-shadow(-2px -2px 3px rgba(0, 0, 0, 0.18));
+    pointer-events: none;
+}
+[data-theme='light'] .paper-sheet {
+    box-shadow: 0 24px 50px -18px rgba(12, 14, 18, 0.35), 0 0 0 1px #e3e4df;
+}
+
+/* Receipt perforation along the top edge. */
+.perforated {
+    background-image: radial-gradient(circle at 6px 0, transparent 4px, var(--paper) 4.5px);
+    background-size: 12px 8px;
+    background-repeat: repeat-x;
+    height: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
