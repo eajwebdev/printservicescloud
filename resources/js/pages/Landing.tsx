@@ -433,12 +433,13 @@ function TickerRow({ reverse, outline }: { reverse?: boolean; outline?: boolean 
     const x = useTransform(base, (v) => `${wrap(-50, 0, v)}%`);
 
     useAnimationFrame((_, delta) => {
-        if (reduce) return;
-        const f = factor.get();
+        // Many desktops have "reduce motion" on (Windows: Animation effects off). The band still runs,
+        // just slower and without reacting to scrolling, so it never looks frozen.
+        const f = reduce ? 0 : factor.get();
         // Scrolling down pushes the rows their own way; scrolling up flips them.
         if (f < 0) direction.current = reverse ? 1 : -1;
         else if (f > 0) direction.current = reverse ? -1 : 1;
-        const speed = 1.6 * (1 + Math.abs(f));
+        const speed = reduce ? 1 : 1.6 * (1 + Math.abs(f));
         base.set(base.get() - direction.current * speed * (delta / 1000));
     });
 

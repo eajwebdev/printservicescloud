@@ -243,6 +243,7 @@ class BillingTest extends TestCase
     public function test_superadmin_adds_a_branch_on_trial_with_a_copied_catalog(): void
     {
         $this->seed(CatalogSeeder::class);
+        Carbon::setTestNow('2026-09-15 09:00:00'); // the seeder resets the clock when it finishes
 
         $this->actingAs($this->superadmin)->post(route('platform.branches.store'), [
             'name' => 'Sipalay', 'code' => 'sip', 'address' => 'Poblacion, Sipalay City', 'active' => true,
