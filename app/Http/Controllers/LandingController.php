@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use App\Support\Brand;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -21,6 +22,7 @@ class LandingController extends Controller
                 ->get(['name', 'code', 'address', 'phone', 'email'])
                 ->map(fn (Branch $b) => $b->only(['name', 'code', 'address', 'phone', 'email']))
                 ->values(),
+            'site' => Brand::site(),
             'signedIn' => $request->user() !== null,
         ]);
     }

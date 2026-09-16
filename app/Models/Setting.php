@@ -20,7 +20,7 @@ class Setting extends Model
     public const CACHE_KEY = 'shop.settings';
 
     /** Keys that are always stored company-wide, never per branch. */
-    public const GLOBAL_ONLY = ['business_name', 'tagline'];
+    public const GLOBAL_ONLY = ['business_name', 'tagline', 'brand_short', 'brand_color', 'logo_path', 'favicon_path', 'site'];
 
     /** Merged values for a branch (company values underneath its overrides). */
     public static function allValues(?int $branchId = null): array

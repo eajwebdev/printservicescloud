@@ -1,6 +1,6 @@
-import { Head, router, useForm } from '@inertiajs/react';
-import { DatabaseBackup, Download, ImageUp, Moon, Sun } from 'lucide-react';
-import { useRef, useState, type ReactNode } from 'react';
+import { Head, Link, router, useForm } from '@inertiajs/react';
+import { ArrowUpRight, DatabaseBackup, Download, Moon, Sun } from 'lucide-react';
+import { useState, type ReactNode } from 'react';
 import { PageHeader } from '@/components/page-header';
 import { Button } from '@/components/ui/button';
 import { Field, Input, Textarea } from '@/components/ui/field';
@@ -11,8 +11,6 @@ import { formatBytes } from '@/lib/print';
 import { useCan } from '@/lib/utils';
 
 interface Settings {
-    business_name: string;
-    tagline: string;
     address: string;
     phone: string;
     email: string;
@@ -58,19 +56,25 @@ function preview(format: string) {
         .replace(/\{(#+)\}/, (_, h: string) => '1'.padStart(h.length, '0'));
 }
 
-export default function SettingsIndex({ settings, logoUrl, backups, branch, canEditBrand }: { settings: Settings; logoUrl: string; backups: Backup[] | null; branch: { id: number; name: string; code: string } | null; canEditBrand: boolean }) {
+interface Props {
+    settings: Settings;
+    brand: { name: string; tagline: string; logo: string };
+    backups: Backup[] | null;
+    branch: { id: number; name: string; code: string } | null;
+    canEditBrand: boolean;
+}
+
+export default function SettingsIndex({ settings, brand, backups, branch, canEditBrand }: Props) {
     const can = useCan();
     const editable = can('settings.edit');
     const { theme, setTheme } = useTheme();
     const form = useForm<Settings>({ ...settings });
-    const logo = useForm<{ logo: File | null }>({ logo: null });
-    const fileRef = useRef<HTMLInputElement>(null);
     const [backingUp, setBackingUp] = useState(false);
     const d = form.data;
     const e = form.errors;
-    const text = (key: keyof Settings, label: string, hint?: string, placeholder?: string, locked = false) => (
+    const text = (key: keyof Settings, label: string, hint?: string, placeholder?: string) => (
         <Field label={label} hint={hint} error={e[key]}>
-            {(id, desc) => <Input id={id} aria-describedby={desc} disabled={!editable || locked} placeholder={placeholder} value={String(d[key] ?? '')} onChange={(ev) => form.setData(key, ev.target.value as never)} />}
+            {(id, desc) => <Input id={id} aria-describedby={desc} disabled={!editable} placeholder={placeholder} value={String(d[key] ?? '')} onChange={(ev) => form.setData(key, ev.target.value as never)} />}
         </Field>
     );
 
@@ -98,31 +102,19 @@ export default function SettingsIndex({ settings, logoUrl, backups, branch, canE
                 }}
             >
                 <Section title="Business profile" body="Shown at the top of receipts, job tickets, quotations and statements.">
-                    <div className="flex items-center gap-4 sm:col-span-2">
-                        <img src={logoUrl} alt="Current logo" className="h-16 w-auto max-w-40 border border-line bg-bg object-contain p-1" />
-                        {editable && (
-                            <>
-                                <input
-                                    ref={fileRef}
-                                    type="file"
-                                    accept="image/png,image/jpeg,image/webp"
-                                    className="hidden"
-                                    onChange={(ev) => {
-                                        const f = ev.target.files?.[0];
-                                        if (!f) return;
-                                        logo.setData('logo', f);
-                                        logo.post(route('settings.logo'), { forceFormData: true, preserveScroll: true });
-                                    }}
-                                />
-                                <Button icon={<ImageUp />} loading={logo.processing} onClick={() => fileRef.current?.click()}>
-                                    Replace logo
-                                </Button>
-                                {logo.errors.logo && <p className="text-sm text-accent-text">{logo.errors.logo}</p>}
-                            </>
+                    <div className="flex flex-wrap items-center gap-4 border border-line bg-bg p-3 sm:col-span-2">
+                        <img src={brand.logo} alt="Current logo" className="h-14 w-auto max-w-36 object-contain" />
+                        <div className="min-w-0 flex-1">
+                            <p className="font-semibold">{brand.name}</p>
+                            {brand.tagline && <p className="text-sm text-muted">{brand.tagline}</p>}
+                            <p className="mt-0.5 text-xs text-faint">The name, logo and colors are shared by every branch.</p>
+                        </div>
+                        {canEditBrand && (
+                            <Link href={route('platform.branding.index')} className="inline-flex h-8 items-center gap-1.5 rounded-xs border border-line-strong px-3 text-sm hover:border-muted">
+                                Edit branding <ArrowUpRight className="size-3.5" />
+                            </Link>
                         )}
                     </div>
-                    {text('business_name', 'Business name', canEditBrand ? 'Shared by all branches' : 'Set by the admin', undefined, !canEditBrand)}
-                    {text('tagline', 'Tagline', canEditBrand ? 'Shared by all branches' : undefined, undefined, !canEditBrand)}
                     <div className="sm:col-span-2">{text('address', 'Address')}</div>
                     {text('phone', 'Phone')}
                     {text('email', 'Email')}

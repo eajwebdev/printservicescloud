@@ -13,7 +13,7 @@ const base =
 const variants: Record<Variant, string> = {
     primary:
         'bg-accent text-white hover:bg-accent-hover active:bg-accent-press active:translate-y-px ' +
-        'focus-visible:shadow-[0_0_0_4px_rgba(228,20,27,0.22),0_8px_24px_-6px_rgba(228,20,27,0.55)]',
+        'focus-visible:shadow-[0_0_0_4px_color-mix(in_srgb,var(--brand)_22%,transparent),0_8px_24px_-6px_color-mix(in_srgb,var(--brand)_55%,transparent)]',
     secondary: 'border border-line-strong bg-raised text-fg hover:border-muted active:translate-y-px',
     ghost: 'text-muted hover:bg-raised hover:text-fg',
     danger: 'border border-line-strong text-accent-text hover:border-accent hover:bg-selected',

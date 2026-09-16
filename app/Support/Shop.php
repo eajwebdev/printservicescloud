@@ -19,10 +19,10 @@ class Shop
         $branch = BranchContext::current()->branch();
 
         return [
-            'name' => Setting::get('business_name', self::BRAND),
+            'name' => Brand::name(),
             'branch' => $branch?->name,
             'branch_code' => $branch?->code,
-            'tagline' => Setting::get('tagline', self::TAGLINE),
+            'tagline' => Brand::tagline(),
             'address' => Setting::get('address', $branch?->address ?? ''),
             'phone' => Setting::get('phone', $branch?->phone ?? ''),
             'email' => Setting::get('email', $branch?->email ?? ''),
@@ -37,28 +37,23 @@ class Shop
         ];
     }
 
-    /** "SKC Custom Print, Kabankalan" for headers that name the branch. */
+    /** "SKC Kabankalan" when the branch already carries the brand's short name, otherwise "SKC Custom Print, Kabankalan". */
     public static function displayName(): string
     {
         $branch = BranchContext::current()->branch();
-        $name = (string) Setting::get('business_name', self::BRAND);
+        $name = Brand::name();
 
-        return $branch ? (str_starts_with($branch->name, 'SKC') ? $branch->name : "{$name}, {$branch->name}") : $name;
+        return $branch ? (str_starts_with($branch->name, Brand::shortName()) ? $branch->name : "{$name}, {$branch->name}") : $name;
     }
 
     /** File path for PDFs (dompdf reads from disk). */
     public static function logoPath(): ?string
     {
-        $uploaded = Setting::get('logo_path');
-        $path = $uploaded ? storage_path('app/public/'.$uploaded) : public_path(self::LOGO);
-
-        return is_file($path) ? $path : (is_file(public_path(self::LOGO)) ? public_path(self::LOGO) : null);
+        return Brand::logoPath();
     }
 
     public static function logoUrl(): string
     {
-        $uploaded = Setting::get('logo_path');
-
-        return $uploaded ? asset('storage/'.$uploaded) : asset(self::LOGO);
+        return Brand::logoUrl();
     }
 }

@@ -9,8 +9,10 @@ export type PaymentStatus = 'paid' | 'partial' | 'credit' | 'unpaid';
 
 export interface ShopProps {
     name: string;
+    short_name: string;
     tagline: string;
     logo: string;
+    color: string;
     rush_fee_percent: number;
     senior_pwd_percent: number;
     tax_rate: number;

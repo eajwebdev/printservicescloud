@@ -39,6 +39,12 @@ function Shell({ children }: { children: ReactNode }) {
     const [navigating, setNavigating] = useState(false);
     const [narrow, setNarrow] = useState(() => typeof window !== 'undefined' && window.matchMedia('(max-width: 1599px)').matches);
 
+    // A brand color saved on Branding & website applies without a full reload.
+    const brandColor = props.shop?.color;
+    useEffect(() => {
+        if (brandColor) document.documentElement.style.setProperty('--brand', brandColor);
+    }, [brandColor]);
+
     useEffect(() => {
         const mq = window.matchMedia('(max-width: 1599px)');
         const on = () => setNarrow(mq.matches);

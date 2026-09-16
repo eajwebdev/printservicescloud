@@ -87,7 +87,7 @@ class BackupService
         $json = str_ends_with($file, '.gz') ? gzdecode($raw) : $raw;
         $data = json_decode((string) $json, true);
         if (! in_array($data['app'] ?? null, [self::APP, 'print-request'], true) || ! is_array($data['tables'] ?? null)) {
-            throw new RuntimeException('That file is not an SKC Custom Print backup.');
+            throw new RuntimeException('That file is not a backup from this system.');
         }
 
         $counts = [];

@@ -57,6 +57,7 @@ class BranchPagesSmokeTest extends TestCase
         $this->actingAs($superadmin)->get(route('platform.branches.index', ['status' => 'overdue']))->assertOk();
         $this->actingAs($superadmin)->get(route('platform.invoices.index', ['status' => 'unpaid', 'month' => now()->format('Y-m')]))->assertOk()->assertInertia(fn ($p) => $p->component('Platform/Invoices'));
         $this->actingAs($superadmin)->get(route('platform.settings.index'))->assertOk()->assertInertia(fn ($p) => $p->component('Platform/Settings')->where('paymongo.configured', false));
+        $this->actingAs($superadmin)->get(route('platform.branding.index'))->assertOk()->assertInertia(fn ($p) => $p->component('Platform/Branding'));
         $this->actingAs($superadmin)->get(route('billing.invoices.print', $invoice))->assertOk()->assertSee($invoice->number);
         $this->actingAs($superadmin)->get(route('dashboard'))->assertOk()->assertInertia(fn ($p) => $p->component('Dashboard')->where('auth.user.is_superadmin', true));
         $this->actingAs($superadmin)->post(route('platform.billing.run'))->assertSessionHasNoErrors();
@@ -79,7 +80,7 @@ class BranchPagesSmokeTest extends TestCase
         foreach (['dashboard', 'pos.index', 'orders.index', 'settings.index', 'inventory.index', 'reports.index', 'billing.index', 'session.index'] as $name) {
             $this->actingAs($admin)->get(route($name))->assertOk();
         }
-        $this->actingAs($admin)->get(route('settings.index'))->assertInertia(fn ($p) => $p->where('branch.code', 'KAB')->where('canEditBrand', true)->has('backups'));
+        $this->actingAs($admin)->get(route('settings.index'))->assertInertia(fn ($p) => $p->where('branch.code', 'KAB')->where('canEditBrand', false)->where('brand.name', 'SKC Custom Print')->has('backups'));
     }
 
     public function test_branch_manager_sees_only_their_branch(): void

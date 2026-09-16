@@ -10,6 +10,7 @@ import {
     History,
     KanbanSquare,
     Package,
+    Palette,
     Printer,
     Receipt,
     ScanBarcode,
@@ -76,5 +77,6 @@ export const NAV: { group: string; items: NavItem[] }[] = [
 export const PLATFORM_NAV: NavItem[] = [
     { page: 'platform', label: 'Branches & plans', route: 'platform.branches.index', match: 'platform.branches.*', icon: Building2 },
     { page: 'platform', label: 'Branch bills', route: 'platform.invoices.index', match: 'platform.invoices.*', icon: FileSpreadsheet },
+    { page: 'platform', label: 'Branding & website', route: 'platform.branding.index', match: 'platform.branding.*', icon: Palette },
     { page: 'platform', label: 'Platform settings', route: 'platform.settings.index', match: 'platform.settings.*', icon: SlidersHorizontal },
 ];

@@ -29,7 +29,7 @@
     .reprint { border: 1px solid #000; padding: 1px 4px; display: inline-block; margin: 3px 0; font-weight: 700; }
     .cut { border-top: 1px dashed #000; margin: 10px 0 6px; text-align: center; font-size: .85em; }
     .screen-bar { font-family: system-ui, sans-serif; background: #0c0e12; color: #eceef2; padding: 10px; text-align: center; font-size: 13px; }
-    .screen-bar button { font: inherit; margin: 0 4px; padding: 6px 14px; border: 0; border-radius: 2px; background: #e4141b; color: #fff; cursor: pointer; }
+    .screen-bar button { font: inherit; margin: 0 4px; padding: 6px 14px; border: 0; border-radius: 2px; background: {{ \App\Support\Brand::head()['color'] }}; color: #fff; cursor: pointer; }
     @media print { .screen-bar { display: none; } }
 </style>
 </head>

@@ -72,6 +72,10 @@ Route::middleware('auth')->group(function () {
         Route::post('master-key', [Platform\SettingsController::class, 'masterKey'])->name('master-key');
         Route::get('settings', [Platform\SettingsController::class, 'index'])->name('settings.index');
         Route::put('settings', [Platform\SettingsController::class, 'update'])->name('settings.update');
+        Route::get('branding', [Platform\BrandingController::class, 'index'])->name('branding.index');
+        Route::put('branding', [Platform\BrandingController::class, 'update'])->name('branding.update');
+        Route::post('branding/reset', [Platform\BrandingController::class, 'reset'])->name('branding.reset');
+        Route::match(['post', 'delete'], 'branding/{kind}', [Platform\BrandingController::class, 'image'])->whereIn('kind', ['logo', 'favicon'])->name('branding.image');
     });
 
     Route::middleware('subscribed')->group(function () {
@@ -214,7 +218,6 @@ Route::middleware('auth')->group(function () {
             Route::middleware('page:settings')->prefix('settings')->name('settings.')->group(function () {
                 Route::get('/', [SettingsController::class, 'index'])->name('index');
                 Route::put('/', [SettingsController::class, 'update'])->middleware('page:settings,edit')->name('update');
-                Route::post('logo', [SettingsController::class, 'logo'])->middleware('page:settings,edit')->name('logo');
                 Route::post('backups', [SettingsController::class, 'createBackup'])->middleware('page:settings,edit')->name('backups.store');
                 Route::get('backups/{name}', [SettingsController::class, 'downloadBackup'])->middleware('page:settings,edit')->name('backups.download');
             });

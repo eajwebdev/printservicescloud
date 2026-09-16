@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\Billing\BillingService;
 use App\Services\Billing\PayMongo;
 use App\Support\BillingLockProps;
+use App\Support\Brand;
 use App\Support\BranchContext;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -177,7 +178,8 @@ class BillingController extends Controller
         return response()->view('print.invoice', [
             'invoice' => $invoice,
             'provider' => $this->billing->setting('billing.provider_name'),
-            'logo' => asset('skclogo.png'),
+            'logo' => Brand::logoUrl(),
+            'brand' => Brand::name(),
         ]);
     }
 

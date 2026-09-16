@@ -12,7 +12,7 @@
     * { box-sizing: border-box; }
     body { margin: 0; font-family: system-ui, 'Segoe UI', Arial, sans-serif; color: #12151b; font-size: 13px; line-height: 1.45; background: #fff; }
     .sheet { max-width: 760px; margin: 24px auto; padding: 0 16px; }
-    .bar { height: 5px; background: #e4141b; margin-bottom: 18px; }
+    .bar { height: 5px; background: {{ \App\Support\Brand::head()['color'] }}; margin-bottom: 18px; }
     .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
     .logo { height: 64px; width: auto; }
     .muted { color: #5b6472; }
@@ -27,7 +27,7 @@
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
     .box { border: 1px solid #e6e7e3; padding: 10px 12px; }
     .screen-bar { font-family: system-ui, sans-serif; background: #0c0e12; color: #eceef2; padding: 10px; text-align: center; font-size: 13px; }
-    .screen-bar button { font: inherit; margin: 0 4px; padding: 6px 14px; border: 0; border-radius: 2px; background: #e4141b; color: #fff; cursor: pointer; }
+    .screen-bar button { font: inherit; margin: 0 4px; padding: 6px 14px; border: 0; border-radius: 2px; background: {{ \App\Support\Brand::head()['color'] }}; color: #fff; cursor: pointer; }
     @media print { .screen-bar { display: none; } .sheet { margin: 0; padding: 0; } }
 </style>
 </head>
@@ -37,7 +37,7 @@
     <div class="bar"></div>
     <div class="head">
         <div>
-            <img class="logo" src="{{ $logo }}" alt="SKC Custom Print">
+            <img class="logo" src="{{ $logo }}" alt="{{ $brand }}">
             <p class="muted" style="margin: 6px 0 0;">Point-of-sale subscription by {{ $provider }}</p>
         </div>
         <div class="r">
@@ -50,7 +50,7 @@
     <div class="grid">
         <div class="box">
             <div class="muted">Billed to</div>
-            <strong>{{ $invoice->branch->name }}, SKC Custom Print</strong><br>
+            <strong>{{ $invoice->branch->name }}, {{ $brand }}</strong><br>
             @if ($invoice->branch->address){{ $invoice->branch->address }}<br>@endif
             @if ($invoice->branch->phone){{ $invoice->branch->phone }}@endif
         </div>

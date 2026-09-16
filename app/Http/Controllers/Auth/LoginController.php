@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Support\Brand;
 use App\Support\BranchContext;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class LoginController extends Controller
 {
     public function show(): Response
     {
-        return Inertia::render('Auth/Login');
+        return Inertia::render('Auth/Login', ['loginBody' => Brand::site()['login_body']]);
     }
 
     public function store(LoginRequest $request): RedirectResponse

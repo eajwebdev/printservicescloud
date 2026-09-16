@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Setting;
 use App\Services\Billing\BillingService;
 use App\Support\BranchContext;
+use App\Support\Brand;
 use App\Support\Shop;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -31,9 +32,11 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'demo' => app()->isLocal() || config('app.demo_logins'),
             'shop' => fn () => [
-                'name' => Setting::get('business_name', Shop::BRAND),
-                'tagline' => Setting::get('tagline', Shop::TAGLINE),
-                'logo' => Shop::logoUrl(),
+                'name' => Brand::name(),
+                'short_name' => Brand::shortName(),
+                'tagline' => Brand::tagline(),
+                'logo' => Brand::logoUrl(),
+                'color' => Brand::color(),
                 'rush_fee_percent' => (float) Setting::get('rush_fee_percent', 30),
                 'senior_pwd_percent' => (float) Setting::get('senior_pwd_percent', 20),
                 'tax_rate' => (float) Setting::get('tax_rate', 0),

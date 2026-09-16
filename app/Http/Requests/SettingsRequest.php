@@ -9,8 +9,6 @@ class SettingsRequest extends AppRequest
     public function rules(): array
     {
         return [
-            'business_name' => ['required', 'string', 'max:120'],
-            'tagline' => ['nullable', 'string', 'max:160'],
             'address' => ['nullable', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:60'],
             'email' => ['nullable', 'email', 'max:120'],

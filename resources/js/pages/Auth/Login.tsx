@@ -4,9 +4,10 @@ import { useState, type FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Field, Input } from '@/components/ui/field';
 import { Checkbox } from '@/components/ui/toggle';
+import { cmyk, fillTokens } from '@/lib/site';
 import type { PageProps } from '@/types';
 
-export default function Login() {
+export default function Login({ loginBody }: { loginBody?: string }) {
     const { shop, demo } = usePage<PageProps>().props;
     const [show, setShow] = useState(false);
     const form = useForm({ email: '', password: '', remember: true });
@@ -44,16 +45,18 @@ export default function Login() {
 
                 <div className="relative flex h-full flex-col items-start justify-between p-16">
                     <div className="flex gap-1.5" aria-hidden>
-                        {['#0C0E12', '#E4141B', '#FFFFFF', '#3A4150'].map((c) => (
-                            <span key={c} className="size-3.5 border border-line-strong" style={{ background: c }} />
+                        {['#0C0E12', shop.color, '#FFFFFF', '#3A4150'].map((c, i) => (
+                            <span key={i} className="size-3.5 border border-line-strong" style={{ background: c }} />
                         ))}
                     </div>
                     <div>
-                        <img src="/skclogo.png" alt="SKC Custom Print" className="w-[26rem] max-w-full drop-shadow-[0_30px_40px_rgba(0,0,0,0.55)]" width={416} height={208} />
+                        <img src={shop.logo} alt={shop.name} className="max-h-72 w-[26rem] max-w-full object-contain object-left drop-shadow-[0_30px_40px_rgba(0,0,0,0.55)]" width={416} height={208} />
                         <h1 className="mt-10 max-w-md text-4xl leading-[1.05] font-semibold">{shop.tagline}</h1>
-                        <p className="mt-4 max-w-sm text-lg text-muted">Counter sales, job orders, stock and reports for every {shop.name} branch.</p>
+                        <p className="mt-4 max-w-sm text-lg text-muted">
+                            {fillTokens(loginBody ?? 'Counter sales, job orders, stock and reports for every {brand} branch.', { brand: shop.name, short: shop.short_name, region: '', branches: 0, branchList: [], services: 0 })}
+                        </p>
                     </div>
-                    <p className="font-mono text-xs text-faint">C 0 / M 100 / Y 100 / K 0</p>
+                    <p className="font-mono text-xs text-faint">{cmyk(shop.color)}</p>
                 </div>
             </div>
 

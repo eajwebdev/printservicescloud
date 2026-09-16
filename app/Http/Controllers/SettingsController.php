@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LogoRequest;
 use App\Http\Requests\SettingsRequest;
 use App\Models\Setting;
 use App\Services\BackupService;
 use App\Services\Sequence;
+use App\Support\Brand;
 use App\Support\BranchContext;
-use App\Support\Shop;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -17,8 +16,6 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 class SettingsController extends Controller
 {
     public const DEFAULTS = [
-        'business_name' => Shop::BRAND,
-        'tagline' => Shop::TAGLINE,
         'address' => '',
         'phone' => '',
         'email' => '',
@@ -51,9 +48,9 @@ class SettingsController extends Controller
 
         return Inertia::render('Settings/Index', [
             'settings' => $values,
-            'logoUrl' => Shop::logoUrl(),
+            'brand' => ['name' => Brand::name(), 'tagline' => Brand::tagline(), 'logo' => Brand::logoUrl()],
             'branch' => BranchContext::current()->branch()?->only(['id', 'name', 'code']),
-            'canEditBrand' => request()->user()->canAccessAllBranches(),
+            'canEditBrand' => (bool) request()->user()->is_superadmin,
             'preview' => [
                 'order' => $this->previewNumber((string) $values['order_no_format']),
             ],
@@ -64,23 +61,11 @@ class SettingsController extends Controller
 
     public function update(SettingsRequest $request): RedirectResponse
     {
-        $values = $request->validated();
-        // The company name and tagline are shared by every branch; only an admin changes them.
-        if (! $request->user()->canAccessAllBranches()) {
-            $values = collect($values)->except(Setting::GLOBAL_ONLY)->all();
-        }
-        Setting::put($values);
+        // The name, logo and website are company-wide and edited under Platform > Branding & website.
+        Setting::put(collect($request->validated())->except(Setting::GLOBAL_ONLY)->all());
         activity('settings')->causedBy($request->user())->withProperties(array_keys($request->validated()))->log('Updated shop settings');
 
         return back()->with('success', 'Settings saved. Receipts and quotes use them from now on.');
-    }
-
-    public function logo(LogoRequest $request): RedirectResponse
-    {
-        $path = $request->file('logo')->store('branding', 'public');
-        Setting::put(['logo_path' => $path]);
-
-        return back()->with('success', 'Logo updated.');
     }
 
     public function createBackup(BackupService $backups): RedirectResponse

@@ -17,7 +17,7 @@
     .rule { border-top: 1px solid #12151B; }
     .hair { border-top: 1px solid #DCDDD8; }
     .dash { border-top: 1px dashed #9AA2B1; }
-    .bar { height: 4px; background: #E4141B; }
+    .bar { height: 4px; background: {{ \App\Support\Brand::head()['color'] }}; }
     .lines th { text-align: left; font-size: 8.5px; color: #5B6472; font-weight: normal; padding: 6px 6px; border-bottom: 1px solid #12151B; }
     .lines td { padding: 7px 6px; border-bottom: 1px solid #E6E7E3; vertical-align: top; }
     .totals td { padding: 3px 6px; }
