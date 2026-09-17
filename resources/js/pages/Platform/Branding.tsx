@@ -139,8 +139,8 @@ export default function PlatformBranding({ identity, site, defaults, logoUrl, fa
                             </div>
                         )}
                     </Field>
-                    <ImagePicker kind="logo" label="Logo" hint="PNG with a transparent background looks best. Up to 4 MB." url={logoUrl} custom={customLogo} />
-                    <ImagePicker kind="favicon" label="Browser icon" hint="Square PNG or ICO, 64 × 64 or larger. Up to 1 MB." url={faviconUrl} custom={customFavicon} />
+                    <ImagePicker kind="logo" label="Logo" hint="PNG with a transparent background looks best." url={logoUrl} custom={customLogo} />
+                    <ImagePicker kind="favicon" label="Browser icon" hint="Square PNG or ICO, 64 × 64 or larger." url={faviconUrl} custom={customFavicon} />
                 </Section>
 
                 <Section title="Website: top of the page" body="The first screen visitors see, plus the title and description search engines and link previews show.">

@@ -128,8 +128,8 @@ class BrandingController extends Controller
 
         $request->validate([
             'file' => $kind === 'logo'
-                ? ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096']
-                : ['required', 'file', 'mimes:png,ico,jpg,jpeg,webp', 'max:1024'],
+                ? ['required', 'image', 'mimes:jpg,jpeg,png,webp']
+                : ['required', 'file', 'mimes:png,ico,jpg,jpeg,webp'],
         ], ['file.required' => 'Choose an image.']);
 
         $this->forget($key);

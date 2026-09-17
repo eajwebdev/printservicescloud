@@ -100,6 +100,9 @@ class BrandingTest extends TestCase
     {
         Storage::fake('public');
 
+        $this->actingAs($this->superadmin)->post(route('platform.branding.image', 'logo'), ['file' => UploadedFile::fake()->image('large-logo.png')->size(4097)])->assertSessionHasNoErrors();
+        $this->actingAs($this->superadmin)->post(route('platform.branding.image', 'favicon'), ['file' => UploadedFile::fake()->image('large-icon.png')->size(1025)])->assertSessionHasNoErrors();
+
         $this->actingAs($this->superadmin)->post(route('platform.branding.image', 'logo'), ['file' => UploadedFile::fake()->image('logo.png', 400, 200)])->assertSessionHasNoErrors();
         $path = Setting::global('logo_path');
         Storage::disk('public')->assertExists($path);
