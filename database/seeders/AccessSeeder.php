@@ -25,7 +25,7 @@ class AccessSeeder extends Seeder
         }
 
         // The system provider: subscriptions, free trials and PayMongo. Sees every branch.
-        $superadmin = User::query()->updateOrCreate(['email' => 'superadmin@skc.test'], [
+        $superadmin = User::query()->updateOrCreate(['email' => 'superadmin'], [
             'name' => 'System Provider',
             'phone' => '0917 555 0001',
             'password' => 'password',
@@ -38,7 +38,7 @@ class AccessSeeder extends Seeder
         $superadmin->syncPermissions(Access::allPermissionNames());
 
         // SKC's owner: every branch, every page.
-        $owner = User::query()->updateOrCreate(['email' => 'admin@skc.test'], [
+        $owner = User::query()->updateOrCreate(['email' => 'admin'], [
             'name' => 'SKC Owner',
             'phone' => '0917 555 0101',
             'password' => 'password',
@@ -51,15 +51,15 @@ class AccessSeeder extends Seeder
 
         $branches = Branch::query()->pluck('id', 'code');
         $staff = [
-            ['email' => 'manager@skc.test', 'name' => 'Carla Ybañez', 'phone' => '0920 555 0133', 'role' => 'Manager', 'branch' => 'KAB'],
-            ['email' => 'cashier@skc.test', 'name' => 'Joy Sarmiento', 'phone' => '0918 555 0142', 'role' => 'Cashier', 'branch' => 'KAB'],
-            ['email' => 'production@skc.test', 'name' => 'Renz Mabini', 'phone' => '0919 555 0177', 'role' => 'Production', 'branch' => 'KAB'],
-            ['email' => 'bacolod.manager@skc.test', 'name' => 'Paolo Lacson', 'phone' => '0917 555 0233', 'role' => 'Manager', 'branch' => 'BCD'],
-            ['email' => 'bacolod.cashier@skc.test', 'name' => 'Bea Montelibano', 'phone' => '0917 555 0242', 'role' => 'Cashier', 'branch' => 'BCD'],
-            ['email' => 'bacolod.production@skc.test', 'name' => 'Jun Gatuslao', 'phone' => '0917 555 0277', 'role' => 'Production', 'branch' => 'BCD'],
-            ['email' => 'dumaguete.manager@skc.test', 'name' => 'Paula Teves', 'phone' => '0917 555 0333', 'role' => 'Manager', 'branch' => 'DGT'],
-            ['email' => 'dumaguete.cashier@skc.test', 'name' => 'Rica Tan', 'phone' => '0917 555 0342', 'role' => 'Cashier', 'branch' => 'DGT'],
-            ['email' => 'dumaguete.production@skc.test', 'name' => 'Carlo Villegas', 'phone' => '0917 555 0377', 'role' => 'Production', 'branch' => 'DGT'],
+            ['email' => 'manager', 'name' => 'Carla Ybañez', 'phone' => '0920 555 0133', 'role' => 'Manager', 'branch' => 'KAB'],
+            ['email' => 'cashier', 'name' => 'Joy Sarmiento', 'phone' => '0918 555 0142', 'role' => 'Cashier', 'branch' => 'KAB'],
+            ['email' => 'production', 'name' => 'Renz Mabini', 'phone' => '0919 555 0177', 'role' => 'Production', 'branch' => 'KAB'],
+            ['email' => 'bacolod.manager', 'name' => 'Paolo Lacson', 'phone' => '0917 555 0233', 'role' => 'Manager', 'branch' => 'BCD'],
+            ['email' => 'bacolod.cashier', 'name' => 'Bea Montelibano', 'phone' => '0917 555 0242', 'role' => 'Cashier', 'branch' => 'BCD'],
+            ['email' => 'bacolod.production', 'name' => 'Jun Gatuslao', 'phone' => '0917 555 0277', 'role' => 'Production', 'branch' => 'BCD'],
+            ['email' => 'dumaguete.manager', 'name' => 'Paula Teves', 'phone' => '0917 555 0333', 'role' => 'Manager', 'branch' => 'DGT'],
+            ['email' => 'dumaguete.cashier', 'name' => 'Rica Tan', 'phone' => '0917 555 0342', 'role' => 'Cashier', 'branch' => 'DGT'],
+            ['email' => 'dumaguete.production', 'name' => 'Carlo Villegas', 'phone' => '0917 555 0377', 'role' => 'Production', 'branch' => 'DGT'],
         ];
 
         foreach ($staff as $row) {
