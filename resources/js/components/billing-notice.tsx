@@ -30,7 +30,7 @@ export function BillingNotice() {
     const [open, setOpen] = useState(false);
     const [paying, setPaying] = useState(false);
 
-    const key = billing?.scope === 'branch' ? `skc-bill-${billing.branch.id}-${billing.overdue_count}-${billing.next_due_on}` : '';
+    const key = billing?.scope === 'branch' ? `eaj-bill-${billing.branch.id}-${billing.overdue_count}-${billing.next_due_on}` : '';
     useEffect(() => {
         if (billing?.scope !== 'branch' || billing.locked || billing.overdue_count === 0) return;
         try {

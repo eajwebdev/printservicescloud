@@ -162,7 +162,7 @@ class MultiBranchTest extends TestCase
         $manager->givePermissionTo(['users.view', 'users.edit', 'users.create']);
 
         $this->actingAs($manager)->get(route('users.index'))->assertInertia(fn ($page) => $page
-            ->where('users', fn ($users) => collect($users)->every(fn ($u) => $u['branch'] === 'SKC Bacolod')));
+            ->where('users', fn ($users) => collect($users)->every(fn ($u) => $u['branch'] === 'EAJ Bacolod')));
         $this->actingAs($manager)->get(route('users.edit', $this->kabCashier))->assertNotFound();
 
         // A new account from a branch manager always lands in their branch, never all branches.

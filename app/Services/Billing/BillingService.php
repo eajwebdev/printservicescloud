@@ -25,7 +25,7 @@ class BillingService
         'billing.lock_after' => 3,
         'billing.trial_days' => 14,
         'billing.remind_days' => 5,
-        'billing.provider_name' => 'SKC Custom Print POS',
+        'billing.provider_name' => 'EAJ Custom Print POS',
         'billing.payment_methods' => ['gcash', 'paymaya', 'card', 'grab_pay', 'qrph'],
     ];
 

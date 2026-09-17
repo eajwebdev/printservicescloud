@@ -16,7 +16,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
 /**
- * SKC Custom Print's price list: full sublimation, DTF, shirts, tarpaulin, signages, stickers,
+ * EAJ Custom Print's price list: full sublimation, DTF, shirts, tarpaulin, signages, stickers,
  * logo work, decals, laser cutting and 3D/CAD/blueprint. Every branch starts with the same list.
  */
 class CatalogSeeder extends Seeder
@@ -193,7 +193,7 @@ class CatalogSeeder extends Seeder
         // Ready-made items sold over the counter.
         // name => [sku, barcode, category, price, cost, stock, reorder, supplier]
         $products = [
-            'SKC logo sticker, 2 in' => ['STK-LOGO', '4800016640017', 'Stickers', 12, 5, 90, 24, 'Negros Print Supply'],
+            'EAJ logo sticker, 2 in' => ['STK-LOGO', '4800016640017', 'Stickers', 12, 5, 90, 24, 'Negros Print Supply'],
             'Dri-fit shirt, sublimation-ready' => ['SHR-DRI', '4800016640024', 'Apparel', 160, 110, 10, 4, 'Cebu Apparel & Fabric Hub'],
             'Cotton shirt, white' => ['SHR-CTN', '4800016640031', 'Apparel', 180, 120, 40, 10, 'Cebu Apparel & Fabric Hub'],
             'Sublimation mug, blank 11oz' => ['MUG-BLK', '4800016640048', 'Blanks', 95, 55, 24, 10, 'Negros Print Supply'],

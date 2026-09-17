@@ -9,8 +9,8 @@ use App\Services\Billing\BillingService;
 use Illuminate\Database\Seeder;
 
 /**
- * Demo subscriptions: SKC Kabankalan pays on time, SKC Bacolod is on a free trial,
- * and SKC Dumaguete is several bills behind, so its staff see the locked bill screen.
+ * Demo subscriptions: EAJ Kabankalan pays on time, EAJ Bacolod is on a free trial,
+ * and EAJ Dumaguete is several bills behind, so its staff see the locked bill screen.
  */
 class BillingDemoSeeder extends Seeder
 {

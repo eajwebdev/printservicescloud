@@ -85,7 +85,7 @@ class ReportController extends Controller
         };
 
         $slug = $filter->ids ? implode('-', $filter->branches()->pluck('code')->all()) : ($filter->locked ? $filter->available->first()?->code : 'all-branches');
-        $filename = 'skc-'.strtolower((string) $slug)."-{$type}-{$from->toDateString()}-to-{$to->toDateString()}.csv";
+        $filename = 'eaj-'.strtolower((string) $slug)."-{$type}-{$from->toDateString()}-to-{$to->toDateString()}.csv";
 
         return response()->streamDownload(function () use ($header, $rows, $filter, $from, $to) {
             $out = fopen('php://output', 'w');

@@ -34,9 +34,9 @@ class BranchPagesSmokeTest extends TestCase
             ->component('Landing')
             ->where('signedIn', false)
             ->has('branches', 3)
-            ->where('branches.0.name', 'SKC Kabankalan')
-            ->where('branches.1.name', 'SKC Dumaguete')
-            ->where('branches.2.name', 'SKC Bacolod')
+            ->where('branches.0.name', 'EAJ Kabankalan')
+            ->where('branches.1.name', 'EAJ Dumaguete')
+            ->where('branches.2.name', 'EAJ Bacolod')
             ->missing('branches.0.subscription_status'));
 
         // Cancelled branches drop off the public site.
@@ -80,7 +80,7 @@ class BranchPagesSmokeTest extends TestCase
         foreach (['dashboard', 'pos.index', 'orders.index', 'settings.index', 'inventory.index', 'reports.index', 'billing.index', 'session.index'] as $name) {
             $this->actingAs($admin)->get(route($name))->assertOk();
         }
-        $this->actingAs($admin)->get(route('settings.index'))->assertInertia(fn ($p) => $p->where('branch.code', 'KAB')->where('canEditBrand', false)->where('brand.name', 'SKC Custom Print')->has('backups'));
+        $this->actingAs($admin)->get(route('settings.index'))->assertInertia(fn ($p) => $p->where('branch.code', 'KAB')->where('canEditBrand', false)->where('brand.name', 'EAJ Custom Print')->has('backups'));
     }
 
     public function test_branch_manager_sees_only_their_branch(): void

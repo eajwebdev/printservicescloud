@@ -16,7 +16,7 @@ class BackupService
 {
     public const DIR = 'backups';
 
-    public const APP = 'skc-pos';
+    public const APP = 'eaj-pos';
 
     /** Parents before children so a restore never trips a foreign key. */
     public const TABLES = [
@@ -36,7 +36,7 @@ class BackupService
             }
         }
 
-        $name = self::DIR.'/skc-pos-'.now()->format('Y-m-d-His').'.json.gz';
+        $name = self::DIR.'/eaj-pos-'.now()->format('Y-m-d-His').'.json.gz';
         Storage::disk('local')->put($name, gzencode(json_encode($data, JSON_UNESCAPED_UNICODE), 6));
 
         return $name;
@@ -70,7 +70,7 @@ class BackupService
     public function path(string $name): string
     {
         $name = basename($name);
-        if (! preg_match('/^(skc-pos|print-request)-[\d-]+\.json\.gz$/', $name) || ! Storage::disk('local')->exists(self::DIR.'/'.$name)) {
+        if (! preg_match('/^(eaj-pos|skc-pos|print-request)-[\d-]+\.json\.gz$/', $name) || ! Storage::disk('local')->exists(self::DIR.'/'.$name)) {
             throw new RuntimeException("No backup called {$name}.");
         }
 

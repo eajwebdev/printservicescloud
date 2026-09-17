@@ -1,6 +1,6 @@
-# SKC Custom Print POS
+# EAJ Custom Print POS
 
-A public website and multi-branch point-of-sale and shop-management system for **SKC Custom Print**: full sublimation, DTF, shirts, tarpaulin, signages, stickers, logo, decals, laser cutting and 3D/CAD/blueprint. Each branch handles counter sales and produced job orders, a production board, the cash drawer, inventory with material recipes, purchases, customers and credit, quotations, expenses, petty cash and reports. Admins see every branch together; branch staff see only their own. The system is sold as a subscription: each branch pays its own monthly bill (₱1,699 by default) online through PayMongo.
+A public website and multi-branch point-of-sale and shop-management system for **EAJ Custom Print**: full sublimation, DTF, shirts, tarpaulin, signages, stickers, logo, decals, laser cutting and 3D/CAD/blueprint. Each branch handles counter sales and produced job orders, a production board, the cash drawer, inventory with material recipes, purchases, customers and credit, quotations, expenses, petty cash and reports. Admins see every branch together; branch staff see only their own. The system is sold as a subscription: each branch pays its own monthly bill (₱1,699 by default) online through PayMongo.
 
 Built with Laravel 12, Inertia v2, React 19, TypeScript, Tailwind CSS v4 and MySQL.
 
@@ -24,7 +24,7 @@ php artisan key:generate
 # Edit DB_* in .env if your MySQL user or password differ.
 
 # 3. Create the database (once)
-mysql -u root -e "CREATE DATABASE skc_pos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql -u root -e "CREATE DATABASE eaj_pos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
 # 4. Link storage for logos and expense receipts, then migrate and seed demo data
 php artisan storage:link
@@ -55,21 +55,21 @@ All demo accounts use the password `password`.
 |---|---|---|
 | `superadmin` | Superadmin (system provider) | Every branch, plus **Platform**: branches, subscriptions, free trials, bills, PayMongo keys |
 | `admin` | Admin | Every branch and every page. Starts on "All branches"; pick a branch in the top bar to sell or count stock |
-| `manager` | Manager, SKC Kabankalan | Everything in Kabankalan except users and editing settings |
-| `cashier` | Cashier, SKC Kabankalan | Counter pages only |
-| `production` | Production, SKC Kabankalan | Dashboard, production board, inventory and services (view only) |
-| `bacolod.manager`, `bacolod.cashier` | SKC Bacolod staff | Bacolod only |
-| `dumaguete.manager`, `dumaguete.cashier` | SKC Dumaguete staff | Dumaguete only. The branch is behind on its bill, so they sign in to the locked bill screen |
+| `manager` | Manager, EAJ Kabankalan | Everything in Kabankalan except users and editing settings |
+| `cashier` | Cashier, EAJ Kabankalan | Counter pages only |
+| `production` | Production, EAJ Kabankalan | Dashboard, production board, inventory and services (view only) |
+| `bacolod.manager`, `bacolod.cashier` | EAJ Bacolod staff | Bacolod only |
+| `dumaguete.manager`, `dumaguete.cashier` | EAJ Dumaguete staff | Dumaguete only. The branch is behind on its bill, so they sign in to the locked bill screen |
 
 The demo has three branches:
 
-- **SKC Kabankalan (KAB)**: two weeks of history, subscribed, older bills paid, the current bill open
-- **SKC Dumaguete (DGT)**: about a week of history, on a ₱1,499 promo price, four bills overdue, so it is locked
-- **SKC Bacolod (BCD)**: about a week of history, on a free trial
+- **EAJ Kabankalan (KAB)**: two weeks of history, subscribed, older bills paid, the current bill open
+- **EAJ Dumaguete (DGT)**: about a week of history, on a ₱1,499 promo price, four bills overdue, so it is locked
+- **EAJ Bacolod (BCD)**: about a week of history, on a free trial
 
 Branch names, addresses and phone numbers live in `database/seeders/BranchSeeder.php`. Edit them before seeding a real install, or change them later in **Platform > Branches & plans**.
 
-The seeder plays out shop activity through the real services, so the drawers, stock ledger, receivables and reports all reconcile. Each branch gets SKC's price list: 27 services in nine categories (Full Sublimation, DTF Printing, Shirts & Apparel, Tarpaulin, Signages, Stickers & Decals, Logo & Layout, Laser Cutting, 3D / CAD / Blueprint) with material recipes, 11 ready-made products, 26 materials, 12 customers, drawer sessions, expenses, petty cash, purchase orders, quotations and job orders in every board column. The prices are starting points; adjust them in **Services** per branch.
+The seeder plays out shop activity through the real services, so the drawers, stock ledger, receivables and reports all reconcile. Each branch gets EAJ's price list: 27 services in nine categories (Full Sublimation, DTF Printing, Shirts & Apparel, Tarpaulin, Signages, Stickers & Decals, Logo & Layout, Laser Cutting, 3D / CAD / Blueprint) with material recipes, 11 ready-made products, 26 materials, 12 customers, drawer sessions, expenses, petty cash, purchase orders, quotations and job orders in every board column. The prices are starting points; adjust them in **Services** per branch.
 
 ## Public website
 
@@ -160,7 +160,7 @@ Receipts and quotations use the business profile and logo from **Settings**.
 ```text
 Program:   C:\xampp\php\php.exe
 Arguments: artisan schedule:run
-Start in:  C:\path\to\skc
+Start in:  C:\path\to\eaj
 ```
 
 Admins can also make and download backups from **Settings > Backups**. Branch staff can't, because a backup contains every branch. Copy one to a USB drive or cloud storage regularly.
@@ -168,7 +168,7 @@ Admins can also make and download backups from **Settings > Backups**. Branch st
 To restore a backup, run the command below. It replaces **all** current data, so make a fresh backup first.
 
 ```bash
-php artisan shop:restore storage/app/private/backups/skc-pos-2026-09-14-213000.json.gz
+php artisan shop:restore storage/app/private/backups/eaj-pos-2026-09-14-213000.json.gz
 ```
 
 ## SMS notifications
@@ -204,4 +204,4 @@ The feature suite runs against in-memory SQLite. It covers:
 
 ## Design
 
-The interface is dark-first, built from the SKC Custom Print logo's red, charcoal and white (`public/skclogo.png`). Red is reserved for primary actions, live production and alerts. A light theme is available for bright counters and can be switched in the top bar. The design tokens and the reasoning behind them are in `docs/design-plan.md`.
+The interface is dark-first, built from the EAJ Custom Print logo's red, charcoal and white (`public/eajlogo.svg`). Red is reserved for primary actions, live production and alerts. A light theme is available for bright counters and can be switched in the top bar. The design tokens and the reasoning behind them are in `docs/design-plan.md`.

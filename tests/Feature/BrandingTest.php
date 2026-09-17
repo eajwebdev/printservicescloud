@@ -53,11 +53,11 @@ class BrandingTest extends TestCase
     public function test_only_the_superadmin_opens_branding(): void
     {
         $this->actingAs($this->superadmin)->get(route('platform.branding.index'))->assertOk()
-            ->assertInertia(fn ($p) => $p->component('Platform/Branding')->where('identity.business_name', 'SKC Custom Print')->has('site.services', 10));
+            ->assertInertia(fn ($p) => $p->component('Platform/Branding')->where('identity.business_name', 'EAJ Custom Print')->has('site.services', 10));
 
         $this->actingAs($this->admin)->get(route('platform.branding.index'))->assertForbidden();
         $this->actingAs($this->admin)->put(route('platform.branding.update'), $this->payload())->assertForbidden();
-        $this->assertSame('SKC Custom Print', Brand::name());
+        $this->assertSame('EAJ Custom Print', Brand::name());
     }
 
     public function test_saved_branding_reaches_the_website_sign_in_and_app(): void
@@ -115,7 +115,7 @@ class BrandingTest extends TestCase
 
         $this->actingAs($this->superadmin)->delete(route('platform.branding.image', 'logo'))->assertSessionHasNoErrors();
         Storage::disk('public')->assertMissing($path);
-        $this->assertSame(asset('skclogo.png'), Brand::logoUrl());
+        $this->assertSame(asset('eajlogo.svg'), Brand::logoUrl());
 
         $this->actingAs($this->admin)->post(route('platform.branding.image', 'logo'), ['file' => UploadedFile::fake()->image('logo.png')])->assertForbidden();
     }
@@ -140,6 +140,6 @@ class BrandingTest extends TestCase
             'business_name' => 'Hijacked',
         ])->assertSessionHasNoErrors();
 
-        $this->assertSame('SKC Custom Print', Brand::name());
+        $this->assertSame('EAJ Custom Print', Brand::name());
     }
 }

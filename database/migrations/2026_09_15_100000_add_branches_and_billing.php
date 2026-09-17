@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
 /**
- * Multi-branch SKC Custom Print: every shop record belongs to a branch, document numbers are
+ * Multi-branch EAJ Custom Print: every shop record belongs to a branch, document numbers are
  * unique per branch, and each branch carries its own monthly subscription and invoices.
  */
 return new class extends Migration
@@ -175,7 +175,7 @@ return new class extends Migration
         foreach (['order_no_format' => ['PR-{YYMM}-{####}', '{BR}-{YYMM}-{####}'], 'quotation_no_format' => ['QT-{YYMM}-{###}', 'QT-{BR}-{YYMM}-{###}'], 'purchase_no_format' => ['PO-{YYYY}-{###}', 'PO-{BR}-{YYYY}-{###}']] as $key => [$old, $new]) {
             DB::table('settings')->where('key', $key)->where('value', json_encode($old))->update(['value' => json_encode($new)]);
         }
-        DB::table('settings')->where('key', 'business_name')->where('value', json_encode('Print Request'))->update(['value' => json_encode('SKC Custom Print')]);
+        DB::table('settings')->where('key', 'business_name')->where('value', json_encode('Print Request'))->update(['value' => json_encode('EAJ Custom Print')]);
     }
 
     public function down(): void

@@ -14,9 +14,9 @@ class SettingsSeeder extends Seeder
         // Company-wide defaults every branch starts from.
         Setting::putGlobal(array_merge(SettingsController::DEFAULTS, [
             'tin' => '000-000-000-000',
-            'gcash_name' => 'SKC CUSTOM PRINT',
+            'gcash_name' => 'EAJ CUSTOM PRINT',
             'bank_name' => 'BDO',
-            'bank_account_name' => 'SKC Custom Print',
+            'bank_account_name' => 'EAJ Custom Print',
         ]));
 
         // What differs per branch: where it is, how to reach it, and where customers send money.
@@ -27,7 +27,7 @@ class SettingsSeeder extends Seeder
                 'phone' => $branch->phone ?? '',
                 'email' => $branch->email ?? '',
                 'gcash_number' => $gcash[$branch->code] ?? ($branch->phone ?? ''),
-                'bank_name' => 'BDO '.str_replace('SKC ', '', $branch->name),
+                'bank_name' => 'BDO '.str_replace('EAJ ', '', $branch->name),
                 'bank_account_number' => '0000 1234 '.str_pad((string) $branch->id, 4, '0', STR_PAD_LEFT),
             ], $branch->id);
         }

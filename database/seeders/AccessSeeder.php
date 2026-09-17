@@ -37,9 +37,9 @@ class AccessSeeder extends Seeder
         $superadmin->syncRoles(['Admin']);
         $superadmin->syncPermissions(Access::allPermissionNames());
 
-        // SKC's owner: every branch, every page.
+        // EAJ's owner: every branch, every page.
         $owner = User::query()->updateOrCreate(['email' => 'admin'], [
-            'name' => 'SKC Owner',
+            'name' => 'EAJ Owner',
             'phone' => '0917 555 0101',
             'password' => 'password',
             'is_owner' => true,
