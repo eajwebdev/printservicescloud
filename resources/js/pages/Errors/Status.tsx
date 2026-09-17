@@ -22,7 +22,7 @@ export default function Status({ status, message }: { status: number; message?: 
         <div className="halftone flex min-h-dvh flex-col items-center justify-center gap-8 bg-bg px-6 py-16">
             <Head title={copy.title} />
             <a href="/" aria-label={`${props.shop?.name ?? 'Home'} home`}>
-                <img src={props.shop?.logo ?? '/skclogo.png'} alt={props.shop?.name ?? ''} className="h-16 w-auto object-contain" />
+                <img src={props.shop?.logo ?? '/eajlogo.svg'} alt={props.shop?.name ?? ''} className="h-16 w-auto object-contain" />
             </a>
             <div className="crop-marks max-w-lg bg-surface px-8 py-7">
                 <span className="crop-b" />

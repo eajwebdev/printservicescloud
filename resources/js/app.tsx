@@ -17,7 +17,7 @@ declare global {
         __brand?: { name: string; color: string };
     }
 }
-let brandName = window.__brand?.name ?? 'SKC Custom Print';
+let brandName = window.__brand?.name ?? 'EAJ Custom Print';
 router.on('success', (event) => {
     const shop = (event.detail.page.props as { shop?: { name?: string } }).shop;
     if (shop?.name) brandName = shop.name;

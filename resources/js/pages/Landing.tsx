@@ -57,9 +57,9 @@ function useBrand(): BrandValue {
 export default function Landing({ branches, site, signedIn }: Props) {
     const { shop } = usePage<PageProps>().props;
     const brand = useMemo<BrandValue>(() => {
-        const short = shop?.short_name ?? 'SKC';
-        const tokens = { brand: shop?.name ?? 'SKC Custom Print', short, region: site.region, branches: branches.length, branchList: branches.map((b) => stripShort(b.name, short)), services: site.services.length };
-        return { name: tokens.brand, short, logo: shop?.logo ?? '/skclogo.png', color: shop?.color ?? '#E4141B', site, branches, t: (text) => fillTokens(text, tokens) };
+        const short = shop?.short_name ?? 'EAJ';
+        const tokens = { brand: shop?.name ?? 'EAJ Custom Print', short, region: site.region, branches: branches.length, branchList: branches.map((b) => stripShort(b.name, short)), services: site.services.length };
+        return { name: tokens.brand, short, logo: shop?.logo ?? '/eajlogo.svg', color: shop?.color ?? '#E4141B', site, branches, t: (text) => fillTokens(text, tokens) };
     }, [shop, site, branches]);
 
     return (
@@ -93,10 +93,10 @@ Landing.layout = null;
 function Grain() {
     return (
         <svg className="pointer-events-none fixed inset-0 z-[60] h-full w-full opacity-[0.055] mix-blend-overlay" aria-hidden>
-            <filter id="skc-grain">
+            <filter id="eaj-grain">
                 <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch" />
             </filter>
-            <rect width="100%" height="100%" filter="url(#skc-grain)" />
+            <rect width="100%" height="100%" filter="url(#eaj-grain)" />
         </svg>
     );
 }
@@ -407,13 +407,13 @@ function HeroMark() {
             <CropMarks delay={0.9} className="inset-6" />
             <motion.svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full" initial={{ opacity: 0, rotate: -40 }} animate={{ opacity: 1, rotate: 0 }} transition={{ duration: 1.8, delay: 0.6, ease: EASE }} aria-hidden>
                 <defs>
-                    <path id="skc-ring" d="M200,200 m-172,0 a172,172 0 1,1 344,0 a172,172 0 1,1 -344,0" />
+                    <path id="eaj-ring" d="M200,200 m-172,0 a172,172 0 1,1 344,0 a172,172 0 1,1 -344,0" />
                 </defs>
                 <circle cx="200" cy="200" r="190" fill="none" stroke="#1A1E26" strokeWidth="1" />
                 <circle cx="200" cy="200" r="154" fill="none" stroke="#1A1E26" strokeWidth="1" strokeDasharray="2 6" />
                 <motion.g animate={{ rotate: 360 }} transition={{ duration: 48, repeat: Infinity, ease: 'linear' }}>
                     <text fill="#5B6472" fontSize="12.5" letterSpacing="4.2" style={{ fontFamily: 'var(--font-mono)' }}>
-                        <textPath href="#skc-ring">{ring + ring}</textPath>
+                        <textPath href="#eaj-ring">{ring + ring}</textPath>
                     </text>
                 </motion.g>
             </motion.svg>
@@ -1360,4 +1360,3 @@ function Footer({ signedIn }: { signedIn: boolean }) {
         </footer>
     );
 }
-

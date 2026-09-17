@@ -6,12 +6,12 @@ use App\Models\Setting;
 
 class Shop
 {
-    public const BRAND = 'SKC Custom Print';
+    public const BRAND = 'EAJ Custom Print';
 
     public const TAGLINE = 'Custom prints, done right.';
 
     /** The default logo shipped with the app. */
-    public const LOGO = 'skclogo.png';
+    public const LOGO = 'eajlogo.svg';
 
     /** Business profile used on receipts, quotations and statements, for the current branch. */
     public static function profile(): array
@@ -37,7 +37,7 @@ class Shop
         ];
     }
 
-    /** "SKC Kabankalan" when the branch already carries the brand's short name, otherwise "SKC Custom Print, Kabankalan". */
+    /** "EAJ Kabankalan" when the branch already carries the brand's short name, otherwise "EAJ Custom Print, Kabankalan". */
     public static function displayName(): string
     {
         $branch = BranchContext::current()->branch();

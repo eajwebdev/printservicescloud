@@ -16,7 +16,7 @@ class Brand
 {
     public const COLOR = '#E4141B';
 
-    public const SHORT = 'SKC';
+    public const SHORT = 'EAJ';
 
     /** Service illustrations the landing page can draw, by key. */
     public const ART = ['sublimation', 'dtf', 'shirt', 'tarp', 'sign', 'sticker', 'logo', 'decal', 'laser', 'blueprint'];
@@ -79,7 +79,7 @@ class Brand
         return (string) (Setting::global('business_name') ?: Shop::BRAND);
     }
 
-    /** The short mark, like "SKC": branch names start with it and the site uses it in headlines. */
+    /** The short mark, like "EAJ": branch names start with it and the site uses it in headlines. */
     public static function shortName(): string
     {
         return (string) (Setting::global('brand_short') ?: self::SHORT);
@@ -127,7 +127,7 @@ class Brand
     {
         $uploaded = Setting::global('favicon_path');
 
-        return $uploaded ? asset('storage/'.$uploaded) : asset('favicon.png');
+        return $uploaded ? asset('storage/'.$uploaded) : asset('eaj-favicon.svg');
     }
 
     /** For the HTML shell and print views, which must render even when the database is down. */
@@ -136,7 +136,7 @@ class Brand
         try {
             return ['name' => self::name(), 'color' => self::color(), 'favicon' => self::faviconUrl(), 'logo' => self::logoUrl()];
         } catch (Throwable) {
-            return ['name' => Shop::BRAND, 'color' => self::COLOR, 'favicon' => asset('favicon.png'), 'logo' => asset(Shop::LOGO)];
+            return ['name' => Shop::BRAND, 'color' => self::COLOR, 'favicon' => asset('eaj-favicon.svg'), 'logo' => asset(Shop::LOGO)];
         }
     }
 }

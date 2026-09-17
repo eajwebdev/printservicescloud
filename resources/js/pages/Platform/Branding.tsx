@@ -112,7 +112,7 @@ export default function PlatformBranding({ identity, site, defaults, logoUrl, fa
                     <Field label="System or business name" error={errors.business_name}>
                         {(id, desc) => <Input id={id} aria-describedby={desc} value={d.business_name} onChange={(ev) => form.setData('business_name', ev.target.value)} />}
                     </Field>
-                    <Field label="Short name" hint="Like SKC. Branch names that start with it are shortened on the website." error={errors.brand_short}>
+                    <Field label="Short name" hint="Like EAJ. Branch names that start with it are shortened on the website." error={errors.brand_short}>
                         {(id, desc) => <Input id={id} aria-describedby={desc} value={d.brand_short} onChange={(ev) => form.setData('brand_short', ev.target.value)} />}
                     </Field>
                     <Field label="Tagline" hint="Sign-in page and receipts" error={errors.tagline} className="sm:col-span-2">

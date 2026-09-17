@@ -169,11 +169,11 @@ function SidebarContent({ collapsed, onToggle }: { collapsed: boolean; onToggle?
     return (
         <>
             <div className={cn('flex h-14 items-center gap-2.5 border-b border-line', collapsed ? 'justify-center px-0' : 'px-4')}>
-                <Link href={route('dashboard')} className="flex min-w-0 items-center gap-2.5" aria-label={`${props.shop?.name ?? 'SKC Custom Print'} home`}>
-                    <img src={props.shop?.logo ?? '/skclogo.png'} alt="" className={cn('shrink-0 object-contain', collapsed ? 'h-7 w-11' : 'h-9 w-[4.5rem]')} width={72} height={36} />
+                <Link href={route('dashboard')} className="flex min-w-0 items-center gap-2.5" aria-label={`${props.shop?.name ?? 'EAJ Custom Print'} home`}>
+                    <img src={props.shop?.logo ?? '/eajlogo.svg'} alt="" className={cn('shrink-0 object-contain', collapsed ? 'h-7 w-11' : 'h-9 w-[4.5rem]')} width={72} height={36} />
                     {!collapsed && (
                         <span className="min-w-0 leading-tight">
-                            <span className="block truncate font-display text-sm font-semibold tracking-tight">{props.shop?.name ?? 'SKC Custom Print'}</span>
+                            <span className="block truncate font-display text-sm font-semibold tracking-tight">{props.shop?.name ?? 'EAJ Custom Print'}</span>
                             <span className="block truncate text-2xs text-faint">{branchName || 'Custom printing'}</span>
                         </span>
                     )}

@@ -108,7 +108,7 @@ export function plain(text: string): string {
         .join('');
 }
 
-/** A branch name without the brand's short mark: "SKC Kabankalan" -> "Kabankalan". */
+/** A branch name without the brand's short mark: "EAJ Kabankalan" -> "Kabankalan". */
 export function stripShort(name: string, short: string): string {
     if (!short) return name;
     return name.toLowerCase().startsWith(`${short.toLowerCase()} `) ? name.slice(short.length + 1) : name;
