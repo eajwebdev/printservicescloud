@@ -27,7 +27,7 @@ class BrandingTest extends TestCase
         $this->seed([AccessSeeder::class, SettingsSeeder::class]);
         $this->app['auth']->forgetGuards();
         $this->superadmin = User::query()->where('is_superadmin', true)->firstOrFail();
-        $this->admin = User::query()->where('email', 'admin')->firstOrFail();
+        $this->admin = User::query()->where('email', 'admin@skccustomprint.test')->firstOrFail();
     }
 
     private function payload(array $identity = [], array $site = []): array

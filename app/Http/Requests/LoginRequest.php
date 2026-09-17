@@ -9,9 +9,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // Usernames are stored in the legacy `email` column so existing
-            // authentication and relationships remain compatible.
-            'email' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email'],
             'password' => ['required', 'string'],
             'remember' => ['boolean'],
         ];

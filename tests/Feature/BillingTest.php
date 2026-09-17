@@ -37,8 +37,8 @@ class BillingTest extends TestCase
         $this->seed([AccessSeeder::class, SettingsSeeder::class]);
         $this->kab = Branch::query()->where('code', 'KAB')->firstOrFail();
         $this->superadmin = User::query()->where('is_superadmin', true)->firstOrFail();
-        $this->admin = User::query()->where('email', 'admin')->firstOrFail();
-        $this->cashier = User::query()->where('email', 'cashier')->firstOrFail();
+        $this->admin = User::query()->where('email', 'admin@skccustomprint.test')->firstOrFail();
+        $this->cashier = User::query()->where('email', 'cashier@skccustomprint.test')->firstOrFail();
     }
 
     protected function tearDown(): void
@@ -101,7 +101,7 @@ class BillingTest extends TestCase
         $this->actingAs($this->cashier)->post(route('session.open'), ['opening_float' => 100])->assertRedirect(route('billing.locked'));
 
         // Other branches keep working.
-        $bcdCashier = User::query()->where('email', 'bacolod.cashier')->firstOrFail();
+        $bcdCashier = User::query()->where('email', 'bacolod.cashier@skccustomprint.test')->firstOrFail();
         $this->actingAs($bcdCashier)->get(route('dashboard'))->assertInertia(fn ($page) => $page->component('Dashboard'));
 
         // Paying one bill leaves three overdue: still locked. Paying one more drops below the limit and reopens the branch.
