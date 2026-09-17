@@ -43,7 +43,7 @@ class BranchPagesSmokeTest extends TestCase
         Branch::query()->where('code', 'BCD')->update(['subscription_status' => 'cancelled']);
         $this->get(route('home'))->assertInertia(fn ($p) => $p->has('branches', 2));
 
-        $admin = User::query()->where('email', 'admin@skccustomprint.test')->firstOrFail();
+        $admin = User::query()->where('email', 'admin')->firstOrFail();
         $this->actingAs($admin)->get(route('home'))->assertOk()->assertInertia(fn ($p) => $p->where('signedIn', true));
         $this->actingAs($admin)->get('/dashboard')->assertOk()->assertInertia(fn ($p) => $p->component('Dashboard'));
     }
@@ -65,7 +65,7 @@ class BranchPagesSmokeTest extends TestCase
 
     public function test_admin_pages_on_all_branches_and_in_one(): void
     {
-        $admin = User::query()->where('email', 'admin@skccustomprint.test')->firstOrFail();
+        $admin = User::query()->where('email', 'admin')->firstOrFail();
         $kab = Branch::query()->where('code', 'KAB')->firstOrFail();
 
         foreach (['dashboard', 'reports.index', 'users.index', 'activity.index', 'billing.index', 'branches.pick', 'users.create'] as $name) {
@@ -85,7 +85,7 @@ class BranchPagesSmokeTest extends TestCase
 
     public function test_branch_manager_sees_only_their_branch(): void
     {
-        $manager = User::query()->where('email', 'manager@skccustomprint.test')->firstOrFail();
+        $manager = User::query()->where('email', 'manager')->firstOrFail();
 
         $this->actingAs($manager)->get(route('dashboard'))->assertOk()->assertInertia(fn ($p) => $p
             ->where('branchFilter.locked', true)

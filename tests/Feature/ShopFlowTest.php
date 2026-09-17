@@ -36,7 +36,7 @@ class ShopFlowTest extends TestCase
         $this->seed([AccessSeeder::class, SettingsSeeder::class, CatalogSeeder::class]);
         $this->branch = $this->useBranch('KAB');
         $this->owner = User::query()->where('is_owner', true)->firstOrFail();
-        $this->cashier = User::query()->where('email', 'cashier@skccustomprint.test')->firstOrFail();
+        $this->cashier = User::query()->where('email', 'cashier')->firstOrFail();
         Bus::fake();
     }
 

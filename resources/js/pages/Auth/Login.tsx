@@ -20,7 +20,7 @@ export default function Login({ loginBody }: { loginBody?: string }) {
     /** Demo shortcut: fill the form and sign straight in. Transform pins the
      *  payload so we don't post a half-applied setData on the same tick. */
     const signInAs = (user: string) => {
-        const credentials = { email: `${user}@skccustomprint.test`, password: 'password', remember: true };
+        const credentials = { email: user, password: 'password', remember: true };
         form.setData(credentials);
         form.transform(() => credentials);
         form.post('/login', {
@@ -75,12 +75,12 @@ export default function Login({ loginBody }: { loginBody?: string }) {
                     <p className="mt-1.5 text-base text-muted">Use the account the owner set up for you.</p>
 
                     <div className="mt-8 space-y-4">
-                        <Field label="Email" error={form.errors.email}>
+                        <Field label="Username" error={form.errors.email}>
                             {(id, d) => (
                                 <Input
                                     id={id}
                                     aria-describedby={d}
-                                    type="email"
+                                    type="text"
                                     autoComplete="username"
                                     autoFocus
                                     inputSize="lg"

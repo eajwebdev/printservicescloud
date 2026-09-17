@@ -36,9 +36,9 @@ class MultiBranchTest extends TestCase
         Bus::fake();
         $this->kab = Branch::query()->where('code', 'KAB')->firstOrFail();
         $this->bcd = Branch::query()->where('code', 'BCD')->firstOrFail();
-        $this->admin = User::query()->where('email', 'admin@skccustomprint.test')->firstOrFail();
-        $this->kabCashier = User::query()->where('email', 'cashier@skccustomprint.test')->firstOrFail();
-        $this->bcdCashier = User::query()->where('email', 'bacolod.cashier@skccustomprint.test')->firstOrFail();
+        $this->admin = User::query()->where('email', 'admin')->firstOrFail();
+        $this->kabCashier = User::query()->where('email', 'cashier')->firstOrFail();
+        $this->bcdCashier = User::query()->where('email', 'bacolod.cashier')->firstOrFail();
     }
 
     /** Sell one pen at the cashier's branch and return the order, read without any branch filter. */
@@ -149,16 +149,16 @@ class MultiBranchTest extends TestCase
         $this->bcd->update(['active' => false]);
 
         $this->app['auth']->forgetGuards(); // the catalog seeder signs the owner in
-        $this->post('/login', ['email' => 'bacolod.cashier@skccustomprint.test', 'password' => 'password'])->assertSessionHasErrors('email');
+        $this->post('/login', ['email' => 'bacolod.cashier', 'password' => 'password'])->assertSessionHasErrors('email');
         $this->assertGuest();
 
-        $this->post('/login', ['email' => 'cashier@skccustomprint.test', 'password' => 'password'])->assertSessionHasNoErrors();
+        $this->post('/login', ['email' => 'cashier', 'password' => 'password'])->assertSessionHasNoErrors();
         $this->assertAuthenticatedAs($this->kabCashier);
     }
 
     public function test_branch_managers_only_manage_their_own_staff(): void
     {
-        $manager = User::query()->where('email', 'bacolod.manager@skccustomprint.test')->firstOrFail();
+        $manager = User::query()->where('email', 'bacolod.manager')->firstOrFail();
         $manager->givePermissionTo(['users.view', 'users.edit', 'users.create']);
 
         $this->actingAs($manager)->get(route('users.index'))->assertInertia(fn ($page) => $page
@@ -167,10 +167,10 @@ class MultiBranchTest extends TestCase
 
         // A new account from a branch manager always lands in their branch, never all branches.
         $this->actingAs($manager)->post(route('users.store'), [
-            'name' => 'New Bacolod Staff', 'email' => 'new@skccustomprint.test', 'password' => 'password123', 'role' => 'Cashier',
+            'name' => 'New Bacolod Staff', 'email' => 'new@example.test', 'password' => 'password123', 'role' => 'Cashier',
             'active' => true, 'all_branches' => true, 'branch_id' => $this->kab->id, 'permissions' => ['pos.view'],
         ])->assertSessionHasNoErrors();
-        $created = User::query()->where('email', 'new@skccustomprint.test')->firstOrFail();
+        $created = User::query()->where('email', 'new@example.test')->firstOrFail();
         $this->assertSame($this->bcd->id, $created->branch_id);
         $this->assertFalse($created->is_owner);
     }
