@@ -26,7 +26,7 @@ class LoginController extends Controller
 
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             throw ValidationException::withMessages([
-                'email' => 'That email and password don\'t match an active account. Check both and try again.',
+                'email' => 'That username and password don\'t match an active account. Check both and try again.',
             ]);
         }
 

@@ -53,13 +53,13 @@ All demo accounts use the password `password`.
 
 | Email | Role | Access |
 |---|---|---|
-| `superadmin@skc.test` | Superadmin (system provider) | Every branch, plus **Platform**: branches, subscriptions, free trials, bills, PayMongo keys |
-| `admin@skc.test` | Admin | Every branch and every page. Starts on "All branches"; pick a branch in the top bar to sell or count stock |
-| `manager@skc.test` | Manager, SKC Kabankalan | Everything in Kabankalan except users and editing settings |
-| `cashier@skc.test` | Cashier, SKC Kabankalan | Counter pages only |
-| `production@skc.test` | Production, SKC Kabankalan | Dashboard, production board, inventory and services (view only) |
-| `bacolod.manager@skc.test`, `bacolod.cashier@skc.test` | SKC Bacolod staff | Bacolod only |
-| `dumaguete.manager@skc.test`, `dumaguete.cashier@skc.test` | SKC Dumaguete staff | Dumaguete only. The branch is behind on its bill, so they sign in to the locked bill screen |
+| `superadmin` | Superadmin (system provider) | Every branch, plus **Platform**: branches, subscriptions, free trials, bills, PayMongo keys |
+| `admin` | Admin | Every branch and every page. Starts on "All branches"; pick a branch in the top bar to sell or count stock |
+| `manager` | Manager, SKC Kabankalan | Everything in Kabankalan except users and editing settings |
+| `cashier` | Cashier, SKC Kabankalan | Counter pages only |
+| `production` | Production, SKC Kabankalan | Dashboard, production board, inventory and services (view only) |
+| `bacolod.manager`, `bacolod.cashier` | SKC Bacolod staff | Bacolod only |
+| `dumaguete.manager`, `dumaguete.cashier` | SKC Dumaguete staff | Dumaguete only. The branch is behind on its bill, so they sign in to the locked bill screen |
 
 The demo has three branches:
 
